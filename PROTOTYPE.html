@@ -1,0 +1,551 @@
+<html lang="en"><head><title>SMM.NET Pre-Alpha 5.✰</title><meta content="./assets/smbs/serverimg.png" itemprop="image"><link href="./assets/smbs/serverimg.png" rel="shortcut icon"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script src="http://html2canvas.hertzen.com/dist/html2canvas.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script>
+	function toggleMisc() {
+  var x = document.getElementById("miscMenu");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+	function compactOn() {
+  var x = document.getElementById("compacttoolbar");
+    var y = document.getElementById("normaltoolbar");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+	    y.style.display = "none";
+	document.getElementById('compactbtn').innerHTML = 'Normal Mode'
+  } else {
+    x.style.display = "none";
+		    y.style.display = "block";
+		document.getElementById('compactbtn').innerHTML = 'Compact Mode'
+  }
+}
+	function myFunction() {
+  var x = document.getElementById("myDIV");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+function chance() {
+    var roll = Math.floor(Math.random('') * 1000) + 1;
+	if (roll === 2) {
+	document.getElementById('kava').innerHTML = "Hey you! Send a PM to <a href=\"https://www.smwcentral.net/?p=pm&do=compose&user=43042\" target=\"_blank\">LOLRyan2006 the Goombud</a> with this password: pancakesiwanttoeatalsoiwantcharacterpack To win a prize!"
+	}
+	}
+var gs = "smb";
+var tb = "tool1";
+var idIndex = 0;
+var divid = 0;
+var darken = 0;
+var musicMuted = false;
+var base64audio;
+var darkModeEnabled = false;
+var snetlvlpackData;
+var bucketPosition1 = {'x': 0, 'y': 0}
+var bucketPosition2 = {'x': 0, 'y': 0}
+var placed1stBucket = false;
+var fillObject = "";
+var bucketActive = false;
+var sfxMuted = false;
+function allowDrop(ev) {
+ev.preventDefault();
+}
+function drag(ev) {
+ev.dataTransfer.setData("text", ev.target.id);
+}
+function drop(ev) {
+ev.preventDefault();
+ev.target.innerHTML = "<img onclick=''"
+var data = ev.dataTransfer.getData("text");
+ev.target.appendChild(document.getElementById(data));
+document.getElementById(data).removeAttribute("onclick");
+var string = "-"
+idIndex++;
+ev.target.firstChild.id = ev.target.firstChild.id + string.repeat(idIndex)
+scanimages();
+}
+function scanimages() {
+if (document.getElementById('elementcont1').innerHTML === "") document.getElementById('elementcont1').innerHTML = '<img class="element1" id="element1" draggable="true" ondragstart="drag(event)" src="./assets/' + gs + '/brick.png">'
+else if (document.getElementById('elementcont2').innerHTML === "") document.getElementById('elementcont2').innerHTML = '<img class="element2" id="element2" draggable="true" ondragstart="drag(event)" src="./assets/' + gs + '/question.png">'
+else if (document.getElementById('elementcont3').innerHTML === "") document.getElementById('elementcont3').innerHTML = '<img class="element3" id="element3" draggable="true" ondragstart="drag(event)" src="./assets/' + gs + '/stone.png">'
+else if (document.getElementById('elementcont4').innerHTML === "") document.getElementById('elementcont4').innerHTML = '<img class="element4" id="element4" draggable="true" ondragstart="drag(event)" src="./assets/' + gs + '/ground.png">'
+else if (document.getElementById('elementcont5').innerHTML === "") document.getElementById('elementcont5').innerHTML = '<img class="element5" id="element5" draggable="true" ondragstart="drag(event)" src="./assets/' + gs + '/coin.png">'
+else if (document.getElementById('elementcont6').innerHTML === "") document.getElementById('elementcont6').innerHTML = '<img class="element6" id="element6" draggable="true" ondragstart="drag(event)" src="./assets/' + gs + '/dirt.png">'
+else if (document.getElementById('elementcont7').innerHTML === "") document.getElementById('elementcont7').innerHTML = '<img class="element7" id="element7" draggable="true" ondragstart="drag(event)" src="./assets/' + gs + '/mario.png">'
+}
+function switchGamestyle(id) {
+if (id == 1) gs = "smbs"
+else if (id == 2) gs = "smb3"
+else if (id == 3) gs = "smw"
+else if (id == 4) gs = "smas"
+else if (id == 5) gs = "nsmbds"
+else if (id == 6) gs = "sml2"
+else if (id == 7) gs = "smm2014smb"
+else if (id == 8) gs = "yi"
+else if (id == 9) gs = "smb2"
+else if (id == 0) gs = "smb"
+else if (id == 10) gs = "sma4"
+else if (id == 11) gs = "nsmbw"
+else if (id == 12) gs = "sm8w"
+else if (id == 13) gs = "sma2"
+else if (id == 14) gs = "sml"
+else if (id == 15) gs = "nsmbu"
+else if (id == 16) gs = "awful"
+else if (id == 17) gs = "tll"
+else if (id == 18) gs = "mapno4"
+else if (id == 19) gs = "sm64"
+else if (id == 20) gs = "smbs3"
+else if (id == 21) gs = "sboi"
+else if (id == 22) gs = "smrpg"
+document.getElementById('musicsource').src = "./assets/" + gs + "/theme.mp3"
+document.getElementById("bgmusic").load();
+if (musicMuted) document.getElementById("bgmusic").pause();
+else document.getElementById("bgmusic").play();
+displaygs(true, true)
+updateElms();
+}
+function toolbarchoose(id) {
+if (id == 0) document.getElementById('newtoolbar').innerHTML = '<button onclick="displaygs()">Gamestyles</button>';
+else if (id == 1) document.getElementById('newtoolbar').innerHTML = '<button onclick="enableFillMode()">Fill</button>';
+else if (id == 2) { if (musicMuted) document.getElementById('newtoolbar').innerHTML = '<button id="mutebtn2" onclick="muteMusic()">Unmute Music</button>'; else document.getElementById('newtoolbar').innerHTML = '<button id="mutebtn2" onclick="muteMusic()">Mute Music</button>';}
+else if (id == 3) { if (sfxMuted) document.getElementById('newtoolbar').innerHTML = '<button id="mutebtn2" onclick="muteSFX()">Unmute SFX</button>'; else document.getElementById('newtoolbar').innerHTML = '<button id="mutebtn2" onclick="muteMusic()">Mute SFX</button>';}
+else if (id == 4) document.getElementById('newtoolbar').innerHTML = '<button onclick="getHelp()">Get Help</button>';
+else if (id == 5) document.getElementById('newtoolbar').innerHTML = '<button onclick="info()">About Us</button>';
+toolbarmsg(true, true)
+}
+function toolbarmsg(playAccept, fromScrollbar) {
+if (darken == 0) {
+darken = 1;
+if (!fromScrollbar) var sound = new Audio("./assets/sfx/dialog.wav");
+if (!sfxMuted) sound.play();
+document.getElementById('darken').style = "pointer-events: all; background: rgba(0,0,0,0.5); width: 100%; height: 100%; position: fixed; top: 0px; left: 0px; z-index: 15";
+document.getElementById('darken').innerHTML = "<div class=\"border\" style=\"opacity: 1; display: block; width: 25%; height: 25%; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%)\"><div style=\" width: 100%; height: calc(100% - 25px)\"><button onclick=\"toolbarchoose(5);\" style=\"width: 100%\">About Us Button</button><br><button onclick=\"toolbarchoose(4);\" style=\"width: 100%\">Get Help Button</button><br><button onclick=\"toolbarchoose(3);\" style=\"width: 100%\">Mute SFX Button</button><br><button onclick=\"toolbarchoose(2);\" style=\"width: 100%\">Mute Music Button</button><br><button onclick=\"toolbarchoose(0);\" style=\"width: 100%\">Gamestyles Button</button><br><button onclick=\"toolbarchoose(1);\" style=\"width: 100%\">Fill Button</button></div><button onclick=\"toolbarmsg()\" style=\"width: calc(100% - 11px); position: absolute; bottom: 5px; left: 5px\">Close</button></div>";
+}
+else {
+darken = 0;
+if (!playAccept) var sound = new Audio("./assets/sfx/cancel.wav");
+else var sound = new Audio("./assets/sfx/accept.wav");
+if (!sfxMuted) sound.play();
+document.getElementById('darken').innerHTML = "";
+document.getElementById('darken').style = "pointer-events: none; background: rgba(0,0,0,0); width: 100%; height: 100%; position: fixed; top: 0px; left: 0px; z-index: 15";
+}
+}
+function updateElms() {
+document.getElementById('elementcont1').innerHTML = '<img class="element1" id="element1" draggable="true" ondragstart="drag(event, this)" src="./assets/' + gs + '/brick.png" onclick="document.getElementById(`blenk`).src=`./assets/' + gs + '/brick.png`">'
+document.getElementById('elementcont2').innerHTML = '<img class="element2" id="element2" draggable="true" ondragstart="drag(event, this)" src="./assets/' + gs + '/question.png" onclick="document.getElementById(`blenk`).src=`./assets/' + gs + '/question.png`">'
+document.getElementById('elementcont3').innerHTML = '<img class="element3" id="element3" draggable="true" ondragstart="drag(event, this)" src="./assets/' + gs + '/stone.png" onclick="document.getElementById(`blenk`).src=`./assets/' + gs + '/stone.png`">'
+document.getElementById('elementcont4').innerHTML = '<img class="element4" id="element4" draggable="true" ondragstart="drag(event, this)" src="./assets/' + gs + '/ground.png" onclick="document.getElementById(`blenk`).src=`./assets/' + gs + '/ground.png`">'
+document.getElementById('elementcont5').innerHTML = '<img class="element5" id="element5" draggable="true" ondragstart="drag(event, this)" src="./assets/' + gs + '/coin.png" onclick="document.getElementById(`blenk`).src=`./assets/' + gs + '/coin.png`">'
+document.getElementById('elementcont6').innerHTML = '<img class="element6" id="element6" draggable="true" ondragstart="drag(event, this)" src="./assets/' + gs + '/dirt.png" onclick="document.getElementById(`blenk`).src=`./assets/' + gs + '/dirt.png`">'
+document.getElementById('elementcont7').innerHTML = '<img class="element7" id="element7" draggable="true" ondragstart="drag(event, this)" src="./assets/' + gs + '/mario.png" onclick="document.getElementById(`blenk`).src=`./assets/' + gs + '/mario.png`">'
+}
+function submit() {
+var width = parseInt(document.getElementById('width').value, 10)
+var height = parseInt(document.getElementById('height').value, 10)
+addGrid(width, height)
+}
+function addGrid(width, height) {
+idIndex = 0;
+var tablecontainer = document.getElementById("editorgrid");
+var table = document.createElement('TABLE');
+var tableBody = document.createElement('TBODY');
+table.appendChild(tableBody);
+for (var i = 0; i < height; i++) {
+var tr = document.createElement('TR');
+tableBody.appendChild(tr);
+for (var j = 0; j < width; j++) {
+divid++;
+var td = document.createElement('TD');
+var div = document.createElement('DIV');
+var clickwindow = document.createElement('A');
+var attribute = document.createAttribute("onclick")
+attribute.value = "placeElement(" + divid + ")"
+clickwindow.setAttributeNode(attribute)
+div.id = "gridcell" + divid
+attribute = document.createAttribute("ondrop")
+attribute.value = "drop(event, false)"
+div.setAttributeNode(attribute)
+attribute = document.createAttribute("ondragover")
+attribute.value = "allowDrop(event)"
+div.setAttributeNode(attribute)
+div.style = "width: 32px; height: 32px"
+clickwindow.appendChild(div);
+td.appendChild(clickwindow);
+tr.appendChild(td);
+}
+}
+tablecontainer.innerHTML = '';
+tablecontainer.appendChild(table);
+displaygs(true)
+}
+function displaygs(playAccept, fromScrollbar) {
+if (darken == 0) {
+darken = 1;
+if (!fromScrollbar) var sound = new Audio("./assets/sfx/dialog.wav");
+if (!sfxMuted) sound.play();
+document.getElementById('darken').style = "pointer-events: all; background: rgba(0,0,0,0.5); width: 100%; height: 100%; position: fixed; top: 0px; left: 0px; z-index: 15";
+document.getElementById('darken').innerHTML = "<div class=\"border\" style=\"opacity: 1; display: block; width: 50%; height: 50%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)\"><div style=\"overflow-y: scroll; width: 100%; height: calc(100% - 25px)\"><button onclick=\"switchGamestyle(0)\"><img src=\"./assets/smb.png\"></button><button onclick=\"switchGamestyle(1)\"><img src=\"./assets/smbs.png\"></button><button onclick=\"switchGamestyle(17)\"><img src=\"./assets/thelevelsarelost.png\"></button><button onclick=\"switchGamestyle(9)\"><img src=\"./assets/smb2.png\"></button><button onclick=\"switchGamestyle(2)\"><img src=\"./assets/smb3.png\"><button onclick=\"switchGamestyle(14)\"><img src=\"./assets/sml.png\"></button></button><button onclick=\"switchGamestyle(21)\"><img src=\"./assets/sboi.png\"></button><button onclick=\"switchGamestyle(3)\"><img src=\"./assets/smw.png\"></button><button onclick=\"switchGamestyle(6)\"><img src=\"./assets/sml2.png\"></button><button onclick=\"switchGamestyle(4)\"><img src=\"./assets/smas.png\"></button><button onclick=\"switchGamestyle(12)\"><img src=\"./assets/sm8w.png\"></button><button onclick=\"switchGamestyle(8)\"><img src=\"./assets/yi.png\"></button><button onclick=\"switchGamestyle(22)\"><img src=\"./assets/smrpg.png\"></button><button onclick=\"switchGamestyle(19)\"><img src=\"./assets/sm64.png\"></button><button onclick=\"switchGamestyle(20)\"><img src=\"./assets/smbs3.png\"></button><button onclick=\"switchGamestyle(13)\"><img src=\"./assets/sma2.png\"></button><button onclick=\"switchGamestyle(10)\"><img src=\"./assets/sma4.png\"></button><button onclick=\"switchGamestyle(5)\"><img src=\"./assets/nsmbds.png\"></button><button onclick=\"switchGamestyle(11)\"><img src=\"./assets/nsmbw.png\"><button onclick=\"switchGamestyle(18)\"><img src=\"./assets/mapno4.png\"></button></button><button onclick=\"switchGamestyle(15)\"><img src=\"./assets/nsmbu.png\"></button><button onclick=\"switchGamestyle(16)\"><img src=\"./assets/awful.png\"></button><br><button onclick=\"customFiles()\" style=\"width: calc(100% - 5px)\">Upload Custom</button></div><button onclick=\"displaygs()\" style=\"width: calc(100% - 11px); position: absolute; bottom: 5px; left: 5px\">Close</button></div>";
+}
+else {
+darken = 0;
+if (!playAccept) var sound = new Audio("./assets/sfx/cancel.wav");
+else var sound = new Audio("./assets/sfx/accept.wav");
+if (!sfxMuted) sound.play();
+document.getElementById('darken').innerHTML = "";
+document.getElementById('darken').style = "pointer-events: none; background: rgba(0,0,0,0); width: 100%; height: 100%; position: fixed; top: 0px; left: 0px; z-index: 15";
+}
+}
+function download(filename, text) {
+var element = document.createElement('a');
+element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+element.setAttribute('download', filename);
+element.style.display = 'none';
+document.body.appendChild(element);
+element.click();
+document.body.removeChild(element);
+}
+function loadData() {
+var file = document.getElementById("savefile").files[0];
+if (file) {
+var reader = new FileReader();
+reader.readAsText(file, "UTF-8");
+reader.onload = function (evt) {
+document.getElementById("editorgridcontainer").innerHTML = evt.target.result;
+if (musicMuted) document.getElementById("bgmusic").pause();
+else document.getElementById("bgmusic").play();
+}
+reader.onerror = function (evt) {
+document.getElementById("editorgridcontainerd").innerHTML = "Error reading save file";
+}
+}
+}
+function placeElement(elmid) {
+var empty = false
+var target = document.getElementById("gridcell" + elmid)
+if (!target.innerHTML == '') empty = true;
+var image = document.getElementById("clickobject").innerHTML
+if (!empty) {
+if (image.includes('brick')) var sound = new Audio('./assets/sfx/brick.wav')
+else if (image.includes('question')) var sound = new Audio('./assets/sfx/question.wav')
+else if (image.includes('coin')) var sound = new Audio('./assets/sfx/coin.wav')
+else var sound = new Audio('./assets/sfx/stone.wav')
+if (!sfxMuted) sound.play();
+}
+target.innerHTML = image
+var string = "-"
+idIndex++;
+target.firstChild.id = target.firstChild.id + string.repeat(idIndex)
+if (bucketActive) {
+target.firstChild.src = './assets/bucket.png'
+}
+if (empty == true) {
+if (bucketActive && placed1stBucket && target.innerHTML.includes('bucket.png')) {
+placed1stBucket = false; 
+}
+var sound = new Audio('./assets/sfx/delete.wav')
+if (!sfxMuted) sound.play();
+target.innerHTML = ''
+}
+if (bucketActive && !empty) {
+if (!placed1stBucket) placed1stBucket = true;
+else if (placed1stBucket) {
+detectBucketPosition()
+}
+}
+}
+function clear(id) {
+var element = document.getElementById(id)
+element.innerHTML = '';
+}
+function getHelp() {
+displaygs()
+document.getElementById('darken').innerHTML = "<div class=\"border\" style=\"opacity: 1; display: block; width: 50%; height: 50%; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%)\"><b>I don't see the grid. How do I make it appear?</b><br>Specify width and height of your grid and click Submit Changes and the grid should appear<br><br><b>How do I place blocks?</b><br>Well, there are two options. You can either drag elements from item bar to the grid or click the element that you want to select and click somewhere in the grid.<br><br><b>How do I remove elements?</b><br>Click on the element you want to remove.<br><br><b>Someone gave me a weird .snetlvl file and said I must open it in this game. How? and how do you get this file?</b><br>To get this file, build a level and click Save. To load it, press browse, choose your .snetlvl file and click Load.<br><br><b>How can I import my own tiles and music?</b><br>When you go to Gamestyle list, click on Custom and select your image or audio file, then click Upload<br><br><b>How can I fill an area with a tile?</b><br>Grab the bucket, mark spot 1, then 2 and the selected tile will now fill to the specified area<br><button onclick=\"displaygs()\" style=\"width: calc(100% - 11px); position: absolute; bottom: 5px; left: 5px\">Close</button></div>"
+}
+function muteMusic() {
+if (!musicMuted) {
+musicMuted = true
+document.getElementById('bgmusic').pause()
+document.getElementById('mutebtn').innerHTML = 'Unmute Music'
+document.getElementById('mutebtn2').innerHTML = 'Unmute Music'
+}
+else if (musicMuted) {
+musicMuted = false
+document.getElementById('bgmusic').play()
+document.getElementById('mutebtn').innerHTML = 'Mute Music'
+document.getElementById('mutebtn2').innerHTML = 'Mute Music'
+}
+}
+function muteSFX() {
+if (!sfxMuted) {
+sfxMuted = true
+document.getElementById('mutesfxbtn').innerHTML = 'Unmute SFX'
+document.getElementById('mutesfxbtn2').innerHTML = 'Unmute SFX'
+}
+else if (sfxMuted) {
+sfxMuted = false
+document.getElementById('mutesfxbtn').innerHTML = 'Mute SFX'
+document.getElementById('mutesfxbtn2').innerHTML = 'Mute SFX'
+}
+}
+function uploadCustomFiles() {
+var gfxfile = document.getElementById('graphic').files[0];
+if (gfxfile) {
+var gfxfilereader = new FileReader();
+gfxfilereader.readAsDataURL(gfxfile);
+gfxfilereader.onload = function (gfxevt) {
+document.getElementById('clickobject').innerHTML = '<img id="blenk" src="' + gfxevt.target.result + '">'
+document.getElementById('warning').innerHTML = ""
+}
+}
+var audfile = document.getElementById('sound').files[0];
+if (audfile) {
+var audfilereader = new FileReader();
+audfilereader.readAsDataURL(audfile);
+audfilereader.onload = function (audevt) {
+document.getElementById('musicsource').src = audevt.target.result
+document.getElementById("bgmusic").load();
+if (musicMuted) document.getElementById("bgmusic").pause();
+else document.getElementById("bgmusic").play();
+document.getElementById('warning').innerHTML = ""
+}
+}
+displaygs(true)
+}
+function customFiles() {
+document.getElementById('darken').innerHTML = "<div class=\"border\" style=\"opacity: 1; display: block; width: 50%; height: 50%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)\"><input type=\"file\" id=\"graphic\"><button onclick=\"document.getElementById('graphic').click()\">Custom Sprite</button><br><input type=\"file\" id=\"sound\"><button onclick=\"document.getElementById('sound').click()\">Custom Music</button><br><button onclick=\"uploadCustomFiles()\" style=\"width: 100%\">Upload</button><br><text>Upload Size Limit: 50 MB</text><button onclick=\"displaygs()\" style=\"width: calc(100% - 11px); position: absolute; bottom: 5px; left: 5px\">Close</button></div>"
+}
+function sendDownloadRequest() {
+download(document.getElementById('savefilename').value + ".snetlvl", document.getElementById('editorgridcontainer').innerHTML)
+}
+function readFolder() {
+gs = document.getElementById('gsfolder').value
+document.getElementById('musicsource').src = "./assets/" + gs + "/theme.mp3"
+document.getElementById("bgmusic").load();
+updateElms()
+displaygs(true);
+}
+function convertDialog() {
+displaygs()
+document.getElementById('darken').innerHTML = "<div class=\"border\" style=\"opacity: 1; display: block; width: 50%; height: 50%; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%)\"><input type=\"file\" id=\"oldsnetlvl\"><button onclick=\"document.getElementById('oldsnetlvl').click()\">Original SNETLVL file</button><br><input type=\"file\" id=\"addmusic\"><button onclick=\"document.getElementById('addmusic').click()\">Music File</button><br><button onclick=\"convert()\" style=\"width: 100%\">Convert</button><button onclick=\"displaygs()\" style=\"width: calc(100% - 11px); position: absolute; bottom: 5px; left: 5px\">Close</button></div>"
+}
+function convert() {
+var sound = new Audio('./assets/sfx/accept.wav')
+var lvlfile = document.getElementById("oldsnetlvl").files[0];
+var addmusic = document.getElementById("addmusic").files[0];
+var reader = new FileReader();
+reader.readAsText(lvlfile, "UTF-8");
+reader.onload = function (snetlvl) {
+var audiofilereader = new FileReader();
+audiofilereader.readAsDataURL(addmusic);
+audiofilereader.onload = function (audiobase64) {
+download(lvlfile.name, "<audio id=\"bgmusic\" controls autoplay loop style=\"display: none\"><source id=\"musicsource\" src=\"" + audiobase64.target.result + "\" type=\"audio/mpeg\"></audio><div id=\"editorgrid\">" + snetlvl.target.result + "</div>")
+}
+}
+}
+function convertToBase64(id) {
+var file = document.getElementById(id).files[0];
+if (file) {
+var filereader = new FileReader();
+filereader.readAsDataURL(file);
+filereader.onload = function (evt) {
+var base64 = evt.target.result;
+return base64
+}
+}
+}
+function confirmation() {
+displaygs()
+document.getElementById('darken').innerHTML = "<div class=\"border\" style=\"opacity: 1; display: block; width: 50%; height: 50%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)\">Are you sure to change? Your creation will disappear. Also too high numbers may freeze the game.<button onclick=\"displaygs()\" style=\"width: calc(50% - 6px); position: absolute; bottom: 5px; left: 5px\">Close</button><button onclick=\"addGrid(parseInt(document.getElementById('width').value), parseInt(document.getElementById('height').value))\" style=\"width: calc(50% - 6px); position: absolute; bottom: 5px; right: 5px\">Change</button></div>"
+}
+function info() {
+displaygs()
+document.getElementById('darken').innerHTML = "<div class=\"border\" style=\"opacity: 1; display: block; width: 50%; height: 50%; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%)\"><b>2020 Goombud Studios in partnership with Zangpule Company<br><br>Main developers:<br></b><a href=\"https://www.smwcentral.net/?p=pm&do=compose&user=41488\" target=\"_blank\">Dominicentek</a><br><a href=\"https://www.smwcentral.net/?p=pm&do=compose&user=35598\" target=\"_blank\">Batata Douce</a><br><a href=\"https://www.smwcentral.net/?p=pm&do=compose&user=42522\" target=\"_blank\">Koop the Koopa</a><br><br><b>Team Leader:<br></b><a href=\"https://www.smwcentral.net/?p=pm&do=compose&user=43042\" target=\"_blank\">LOLRyan2006 the Goombud</a><br><br><b>Creator:<br></b><a href=\"https://www.smwcentral.net/?p=pm&do=compose&user=41488\" target=\"_blank\">Dominicentek</a><br><br><b>Special thanks to:<br></b>Green Jerry by making the logo.<br><br><br><br><br><br><b>The Mario franchise is owned by nintendo, this is just a fan game that is based on Super Mario Maker.</b><button onclick=\"displaygs()\" style=\"width: calc(100% - 6px); position: absolute; bottom: 5px; left: 5px\">Close</button></div>"
+}
+function exportToImage() {
+displaygs()
+document.getElementById('darken').innerHTML = "<div class=\"border\" style=\"opacity: 1; display: block; width: 50%; height: 50%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)\"><div id=\"screenshotLevelWindow\" style=\"overflow-x: scroll; overflow-y: scroll; width: 100%; height: calc(100% - 40px)\"></div><button onclick=\"downloadLevel()\">Download</button><button onclick=\"displaygs()\" style=\"width: calc(100% - 6px); position: absolute; bottom: 5px; left: 5px\">Close</button></div>"
+var table = document.getElementById('editorgrid').firstElementChild
+var canvas = document.createElement('canvas')
+var attr = document.createAttribute('id')
+attr.value = 'screenshotCanvas'
+canvas.setAttributeNode(attr)
+attr = document.createAttribute('width')
+attr.value = table.rows[0].cells.length * 32 + '; height: ' + table.rows.length * 32
+canvas.setAttributeNode(attr)
+attr = document.createAttribute('height')
+attr.value = table.rows.length * 32
+canvas.setAttributeNode(attr)
+document.getElementById('screenshotLevelWindow').appendChild(canvas)
+var context = canvas.getContext("2d");
+for (var i = 0, row; row = table.rows[i]; i++) {
+for (var j = 0, col; col = row.cells[j]; j++) {
+if (col.firstElementChild.firstElementChild.innerHTML !== '') {
+var currTile = document.createElement('img')
+var attr = document.createAttribute('src')
+attr.value = col.firstElementChild.firstElementChild.firstElementChild.src
+currTile.setAttributeNode(attr)
+document.body.appendChild(currTile)
+context.drawImage(currTile, j * 32, i * 32, 32, 32);
+document.body.removeChild(currTile)
+}
+}
+}
+}
+function darkMode() {
+if (darkModeEnabled) {
+darkModeEnabled = false;
+document.getElementById('dark').innerHTML = 'Dark Mode';
+document.getElementById('cssStyle').innerHTML = 'div, img {width: 32px; height: 32px}\ntable { border-collapse: collapse}\ntable, th, td {border: solid 1px black}\nbody {\n  color: #000000; background-color: #FFFFFF; user-select: none;\n  -webkit-user-select: none;\n  -khtml-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n.border {\n  background: rgba(255, 255, 255, 0.5);\n  border: 1px solid #000000;\n  padding: 5px;\n  font-size: 12px;\n}\n*  {\n  cursor: url(\'./assets/cursor.png\'), auto;\n}\ninput[type=file] { display: none }'
+document.getElementById('toolbar').style = 'right: 0px; top: 0px; position: fixed; background-color: #FFFFFF'
+}
+else {
+darkModeEnabled = true;
+document.getElementById('dark').innerHTML = 'Light Mode';
+document.getElementById('cssStyle').innerHTML = 'div, img {width: 32px; height: 32px}\ntable { border-collapse: collapse}\ntable, th, td {border: 1px solid white}\nbody {\n  color: #FFFFFF; background-color: #1D1D1D; user-select: none;\n  -webkit-user-select: none;\n  -khtml-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n.border {\n  background: rgba(100, 100, 100, 0.5);\n  border: 1px solid #FFFFFF;\n  padding: 5px;\n  font-size: 12px;\n}\ntextarea, input[type="number"] {\ncolor: #FFFFFF;background-color: #4F4F4F; border: none\n}\n*  {\n  cursor: url(\'./assets/cursor.png\'), auto;\n}\ninput[type=file] { display: none }'
+document.getElementById('toolbar').style = 'right: 0px; top: 0px; position: fixed; background-color: #4F4F4F'
+}
+}
+function playTheGame() {
+var sound = new Audio("./assets/sfx/mario.wav");
+if (!sfxMuted) sound.play();
+document.getElementById('titlescreencontainer').remove()
+document.getElementById('bgmusic').play()
+}
+function downloadLevel() {
+html2canvas(document.querySelector("#screenshotCanvas")).then(canvas => {
+var img = canvas.toDataURL("image/png");
+var link = document.createElement("a");
+var attr = document.createAttribute('href')
+attr.value = "data:" + img
+link.setAttributeNode(attr)
+attr = document.createAttribute('download')
+attr.value = "level.png"
+link.setAttributeNode(attr)
+document.body.appendChild(link)
+link.click()
+document.body.removeChild(link)
+});
+}
+function detectBucketPosition() {
+var scanned1stBucket = false;
+var table = document.getElementById('editorgrid').firstElementChild
+var i = 0;
+var j = 0;
+do {
+do {
+if (table.rows[i].cells[j].firstElementChild.firstElementChild.firstElementChild) {
+if (table.rows[i].cells[j].firstElementChild.firstElementChild.firstElementChild.src.includes('bucket.png')) {
+if (!scanned1stBucket) {
+bucketPosition1.x = j
+bucketPosition1.y = i
+scanned1stBucket = true;
+}
+else {
+bucketPosition2.x = j
+bucketPosition2.y = i
+bucketPrepared = true;
+}
+}
+}
+j++;
+}
+while (j < table.rows[i].cells.length)
+i++;
+j = 0;
+}
+while (i < table.rows.length)
+if (bucketPosition1.x > bucketPosition2.x) {
+var origbucketPosition1X = bucketPosition1.x
+bucketPosition1.x = bucketPosition2.x
+bucketPosition2.x = origbucketPosition1X
+}
+fill();
+}
+function fill() {
+placed1stBucket = false;
+bucketActive = false;
+for (var i = bucketPosition1.y; i < bucketPosition2.y + 1; i++) {
+for (var j = bucketPosition1.x; j < bucketPosition2.x + 1; j++) {
+placeElementTo(j, i)
+}
+}
+}
+function enableFillMode() {
+bucketActive = true
+}
+function placeElementTo(x, y) {
+var image = document.getElementById("clickobject").innerHTML
+var table = document.getElementById('editorgrid').firstElementChild
+table.rows[y].cells[x].firstElementChild.firstElementChild.innerHTML = image
+var string = "-"
+idIndex++;
+table.rows[y].cells[x].firstElementChild.firstElementChild.firstElementChild.id = "blenk" + string.repeat(idIndex)
+}
+</script>
+<style id="cssStyle">
+table, th, td {border: 1px solid black}
+div, img {width: 32px; height: 32px}
+table {border-collapse: collapse}
+table, th, td {border: 1px solid blac k}
+body {
+  user-select: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+*  {
+  cursor: url('./assets/cursor.png'), auto;
+}
+input[type=file] { display: none }
+.border {
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid #000000;
+  padding: 5px;
+  font-size: 12px;
+}
+</style>
+</head><body onload="chance()">
+<div style="position: fixed; top: 0px; left: 0px; z-index: -1000; height: 100%; width: 100%"></div><div id="darken" style="pointer-events: none; background: transparent none repeat scroll 0% 0%; width: 100%; height: 100%; position: fixed; top: 0px; left: 0px; z-index: 1000;"></div><div id="titlescreencontainer" style="top: 0px; left: 0px; position: fixed; width: 100%; height: 100%; background-color: #FFFFFF; z-index: 1"><audio controls="" autoplay="" loop="" style="display: none"><source src="./assets/titlescreen.mp3" type="audio/mpeg"></audio><div style="display: block; width: 50%; height: 50%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; font-size: 48px"><img style="width: 687px; height: 226px" src="./assets/logo.png"><br><text style="font-size: 24px">Version Pre-Alpha 5.✰</text><br><br><br><br><button onclick="playTheGame()">Play</button><a href="http://worldmaker.smmdotnet.42web.io" target="_blank"><button>World Maker (Prototype)</button></a></div><div id="kava"></div><text style="font-size: 24px; bottom: 5px; left: 5px; position: absolute">(C) Goombud Studios 2020<br>(C) Nintendo</text></div><span style="font-size: 16pt;"><i>
+<div id="miscMenu" style="width: 100%; height: 240px"><input id="savefile" accept=".snetlvl" type="file" onchange="loadData()"><button onclick="document.getElementById('savefile').click()">Load Level</button><br>
+<button onclick="convertDialog()">Convert .snetlvl file (Indev 5 - Indev 7 to Indev 8+)</button><br>
+<button onclick="exportToImage()">Export to Image</button><br>
+<button id="dark" onclick="darkMode()">Dark Mode</button><br>
+<button onclick="sendDownloadRequest()">Save Level</button><textarea id="savefilename" style="resize: none; height: 18px; width: 475px">myname</textarea><text>.snetlvl</text><br><br>
+<input id="width" type="number" min="0"><text> Editor Width</text><br>
+<input id="height" type="number" min="0"><text> Editor Height</text><br>
+<button onclick="confirmation()">Submit Changes</button></div>
+<div id="editorgridcontainer" style="position: absolute">
+<audio id="bgmusic" controls="" loop="" style="display: none"><source id="musicsource" src="./assets/smb/theme.mp3" type="audio/mpeg"></audio>
+<div id="editorgrid"><table><tbody></tbody></table></div></div><br>
+<table style="right: 0px; top: 35px; position: fixed"><tbody><tr>
+<td><button onclick="toggleMisc()">Toggle Misc</button></td>
+<td><button id="compactbtn" onclick="compactOn()">Compact Mode</button></td>
+<td><button onclick="myFunction()">Toggle Menu</button></td></tr></tbody></table>
+<table style="right: 0px; top: 0px; position: fixed" id="toolbar">
+<tbody id="myDIV"><tr id="normaltoolbar" style="right: 280px; top: 0px; position: fixed">
+<td><button onclick="info()">About Us</button></td>
+<td><button onclick="getHelp()">Get Help</button></td>
+<td><button id="mutesfxbtn" onclick="muteSFX()">Mute SFX</button></td>
+<td><button id="mutebtn" onclick="muteMusic()">Mute Music</button></td>
+<td><button onclick="displaygs()">Gamestyles</button></td>
+<td><button onclick="enableFillMode()">Fill</button></td>
+</tr>
+<tr id="compacttoolbar" style="display: none;right: 280px; top: 0px; position: fixed">
+<td><button onclick="toolbarmsg();">+</button>
+</td><td><div id="newtoolbar" style="width: 125px; height: 20px"><button onclick="displaygs()">Gamestyles</button></div></td>
+</tr>
+<tr style="right: 0px; top: 0px; position: fixed"><td><div id="elementcont1"><img class="element1" id="element1" draggable="true" ondragstart="drag(event, this)" src="./assets/smb/brick.png" onclick="document.getElementById(`blenk`).src=`./assets/smb/brick.png`"></div></td>
+<td><div id="elementcont2"><img class="element2" id="element2" draggable="true" ondragstart="drag(event, this)" src="./assets/smb/question.png" onclick="document.getElementById(`blenk`).src=`./assets/smb/question.png`"></div></td>
+<td><div id="elementcont3"><img class="element3" id="element3" draggable="true" ondragstart="drag(event, this)" src="./assets/smb/stone.png" onclick="document.getElementById(`blenk`).src=`./assets/smb/stone.png`"></div></td>
+<td><div id="elementcont4"><img class="element4" id="element4" draggable="true" ondragstart="drag(event, this)" src="./assets/smb/ground.png" onclick="document.getElementById(`blenk`).src=`./assets/smb/ground.png`"></div></td>
+<td><div id="elementcont5"><img class="element5" id="element5" draggable="true" ondragstart="drag(event, this)" src="./assets/smb/coin.png" onclick="document.getElementById(`blenk`).src=`./assets/smb/coin.png`"></div></td>
+<td><div id="elementcont6"><img class="element6" id="element6" draggable="true" ondragstart="drag(event, this)" src="./assets/smb/dirt.png" onclick="document.getElementById(`blenk`).src=`./assets/smb/dirt.png`"></div></td>
+<td><div id="elementcont7"><img class="element7" id="element7" draggable="true" ondragstart="drag(event, this)" src="./assets/smb/mario.png" onclick="document.getElementById(`blenk`).src=`./assets/smb/mario.png`"></div></td>
+<td style="background-color: #7f7fff"><div id="clickobject" style="width: 32px; height: 32px; background-color: #7F7FFF;"><img id="blenk" src="./assets/smb/brick.png"></div></td></tr>
+</tbody></table></i></span></body></html>
