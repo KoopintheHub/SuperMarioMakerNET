@@ -77,6 +77,7 @@ var idIndex = 0;
 var savedlevel = 2;
 var divid = 0;
 var darken = 0;
+var openedadialog = 0;
 var musicMuted = false;
 var base64audio;
 var darkModeEnabled = false;
@@ -98,11 +99,13 @@ function drop(ev) {
 ev.preventDefault();
 ev.target.innerHTML = "<img onclick=''"
 var data = ev.dataTransfer.getData("text");
+var collisionAttr = document.getElementById(data).getAttribute('collision')
 ev.target.appendChild(document.getElementById(data));
 document.getElementById(data).removeAttribute("onclick");
 var string = "-"
 idIndex++;
 ev.target.firstChild.id = ev.target.firstChild.id + string.repeat(idIndex)
+ev.target.firstChild.setAttribute('collision', collisionAttr)
 scanimages();
 }
 function scanimages() {
@@ -151,7 +154,7 @@ else if (id == 1) document.getElementById('newtoolbar').innerHTML = '<button onc
 else if (id == 2) { if (musicMuted) document.getElementById('newtoolbar').innerHTML = '<button id="mutebtn2" onclick="muteMusic()">Unmute Music</button>'; else document.getElementById('newtoolbar').innerHTML = '<button id="mutebtn2" onclick="muteMusic()">Mute Music</button>';}
 else if (id == 3) { if (sfxMuted) document.getElementById('newtoolbar').innerHTML = '<button id="mutebtn2" onclick="muteSFX()">Unmute SFX</button>'; else document.getElementById('newtoolbar').innerHTML = '<button id="mutebtn2" onclick="muteMusic()">Mute SFX</button>';}
 else if (id == 4) document.getElementById('newtoolbar').innerHTML = '<button onclick="getHelp()">Get Help</button>';
-else if (id == 5) document.getElementById('newtoolbar').innerHTML = '<button onclick="info()">About Us</button>';
+else if (id == 5) document.getElementById('newtoolbar').innerHTML = '<button onclick="info()">About</button>';
 toolbarmsg(true, true)
 }
 function toolbarmsg(playAccept, fromScrollbar) {
@@ -191,6 +194,7 @@ addGrid(width, height)
 }
 function addGrid(width, height) {
 savedlevel = 0;
+createdlevel = 1;
 idIndex = 0;
 var tablecontainer = document.getElementById("editorgrid");
 var table = document.createElement('TABLE');
@@ -242,8 +246,9 @@ document.getElementById('darken').style = "pointer-events: none; background: rgb
 }
 }
 function download(filename, text) {
+savedlevel = 1;
 var element = document.createElement('a');
-element.setAttribute('href', text);
+element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text) + encodeURIComponent(getCollisionData()));
 element.setAttribute('download', filename);
 element.style.display = 'none';
 document.body.appendChild(element);
@@ -251,6 +256,7 @@ element.click();
 document.body.removeChild(element);
 }
 function loadData() {
+createdlevel = 1;
 var file = document.getElementById("savefile").files[0];
 if (file) {
 var reader = new FileReader();
@@ -261,7 +267,8 @@ if (musicMuted) document.getElementById("bgmusic").pause();
 else document.getElementById("bgmusic").play();
 }
 reader.onerror = function (evt) {
-document.getElementById("editorgridcontainerd").innerHTML = "Error reading save file";
+document.getElementById("editorgridcontainerd").innerHTML = "Error reading save file. It's maybe corrupted or invalid.";
+createdlevel = 0;
 }
 }
 }
@@ -336,12 +343,13 @@ document.getElementById('mutesfxbtn2').innerHTML = 'Mute SFX'
 }
 }
 function uploadCustomFiles() {
+var collisionNum = document.getElementById('collisionType').value
 var gfxfile = document.getElementById('graphic').files[0];
 if (gfxfile) {
 var gfxfilereader = new FileReader();
 gfxfilereader.readAsDataURL(gfxfile);
 gfxfilereader.onload = function (gfxevt) {
-document.getElementById('clickobject').innerHTML = '<img id="blenk" src="' + gfxevt.target.result + '">'
+document.getElementById('clickobject').innerHTML = '<img id="blenk" collision="' + collisionNum + '" src="' + gfxevt.target.result + '">'
 document.getElementById('warning').innerHTML = ""
 }
 }
@@ -361,11 +369,16 @@ displaygs(true)
 }
 function customFiles() {
 playacceptsound()
-document.getElementById('darken').innerHTML = "<div class=\"border\" style=\"opacity: 1; display: block; width: 50%; height: 50%; font-family: Arial; font-size: 13px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)\"><input type=\"file\" id=\"graphic\"><button onclick=\"document.getElementById('graphic').click()\">Custom Sprite</button><br><input type=\"file\" id=\"sound\"><button onclick=\"document.getElementById('sound').click()\">Custom Music</button><br><button onclick=\"uploadCustomFiles()\" style=\"width: 100%\">Upload</button><br><text>Upload Size Limit: 50 MB</text><button onclick=\"displaygs()\" style=\"width: calc(100% - 11px); position: absolute; bottom: 5px; left: 5px\">Cancel</button></div>"
+document.getElementById('darken').innerHTML = "<div class=\"border\" style=\"opacity: 1; display: block; width: 50%; height: 50%; font-family: Arial; font-size: 13px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)\"><input type=\"file\" id=\"graphic\"><button onclick=\"document.getElementById('graphic').click()\">Custom Sprite</button><text> Select behaviour: </text><select id=\"collisionType\"><option value=\"0\">Air</option><option value=\"1\">Solid</option><option value=\"2\">Coin</option><option value=\"3\">Brick Block</option><option value=\"4\">? Block</option></select><br><input type=\"file\" id=\"sound\"><button onclick=\"document.getElementById('sound').click()\">Custom Music</button><br><button onclick=\"uploadCustomFiles()\" style=\"width: 100%\">Upload</button><br><text>Upload Size Limit: 50 MB</text><button onclick=\"displaygs()\" style=\"width: calc(100% - 11px); position: absolute; bottom: 5px; left: 5px\">Cancel</button></div>"
 }
 function sendDownloadRequest() {
-savedlevel = 1;
-download(document.getElementById('savefilename').value + ".snetlvl", document.getElementById('editorgridcontainer').innerHTML)
+displaygs()
+if (createdlevel == 1) {
+document.getElementById('darken').innerHTML = "<div class=\"border\" style=\"opacity: 1; display: block; width: 40%; font-family: Arial; font-size: 15px; height: 10%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)\">Please enter the filename of you level:<textarea id=\"savefilename\" onclick=\"this.select()\" style=\"resize: none; height: 18px; width: 475px\">My Level</textarea><text>.snetlvl</text><button onclick=\"displaygs()\" style=\"width: calc(50% - 6px); position: absolute; bottom: 5px; left: 5px\">Cancel</button><button onclick=\"download(document.getElementById('savefilename').value + '.snetlvl', document.getElementById('editorgridcontainer').innerHTML), toolbarmsg(true)\" style=\"width: calc(50% - 6px); position: absolute; bottom: 5px; right: 5px\">Save Level</button></div>"
+}
+else {
+document.getElementById('darken').innerHTML = "<div class=\"border\" style=\"opacity: 1; display: block; font-family: Arial; font-size: 18px; width: 50%; height: 50%; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%)\">You have not made or load a level yet. Build a level and then save the level.<button onclick=\"toolbarmsg(true)\" style=\"width: calc(100% - 6px); position: absolute; bottom: 5px; left: 5px\">OK</button></div>"
+}
 }
 function readFolder() {
 gs = document.getElementById('gsfolder').value
@@ -376,7 +389,7 @@ displaygs(true);
 }
 function convertDialog() {
 displaygs()
-document.getElementById('darken').innerHTML = "<div class=\"border\" style=\"opacity: 1; display: block; width: 50%; height: 50%; font-family: Arial; font-size: 15px; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%)\"><input type=\"file\" id=\"oldsnetlvl\"><button onclick=\"document.getElementById('oldsnetlvl').click()\">Original SNETLVL file</button><br><input type=\"file\" id=\"addmusic\"><button onclick=\"document.getElementById('addmusic').click()\">Music File</button><br><button onclick=\"convert()\" style=\"width: 100%\">Convert</button><button onclick=\"displaygs()\" style=\"width: calc(100% - 11px); position: absolute; bottom: 5px; left: 5px\">Cancel</button></div>"
+document.getElementById('darken').innerHTML = "<div class=\"border\" style=\"opacity: 1; display: block; width: 50%; height: 50%; font-family: Arial; font-size: 15px; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%)\"><input type=\"file\" id=\"oldsnetlvl\"><button onclick=\"playacceptsound(), document.getElementById('oldsnetlvl').click()\">Original SNETLVL file</button><br><input type=\"file\" id=\"addmusic\"><button onclick=\"playacceptsound(), document.getElementById('addmusic').click()\">Music File</button><br><button onclick=\"playacceptsound(), convert()\" style=\"width: 100%\">Convert</button><button onclick=\"displaygs()\" style=\"width: calc(100% - 11px); position: absolute; bottom: 5px; left: 5px\">Cancel</button></div>"
 }
 function convert() {
 var sound = new Audio('./assets/sfx/accept.wav')
@@ -405,13 +418,12 @@ return base64
 }
 function confirmation() {
 displaygs()
-createdlevel = 1;
 document.getElementById('darken').innerHTML = "<div class=\"border\" style=\"opacity: 1; display: block; width: 50%; font-family: Arial; font-size: 15px; height: 50%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)\">You are about to make a new level. Be aware that this will replace the current submitted level. Are you sure you want to submit changes?<button onclick=\"displaygs()\" style=\"width: calc(50% - 6px); position: absolute; bottom: 5px; left: 5px\">No</button><button onclick=\"addGrid(parseInt(document.getElementById('width').value), parseInt(document.getElementById('height').value))\" style=\"width: calc(50% - 6px); position: absolute; bottom: 5px; right: 5px\">Yes</button></div>"
 }
 function info() {
 displaygs()
 // document.getElementById('darken').innerHTML = "<div class=\"border\" style=\"opacity: 1; display: block; width: 50%; height: 50%; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%)\"><b>2020 Goombud Studios in partnership with Zangpule Company<br><br>Main developers:<br></b><a href=\"https://www.smwcentral.net/?p=pm&do=compose&user=41488\" target=\"_blank\">Dominicentek</a><br><a href=\"https://www.smwcentral.net/?p=pm&do=compose&user=35598\" target=\"_blank\">Batata Douce</a><br><a href=\"https://www.smwcentral.net/?p=pm&do=compose&user=42522\" target=\"_blank\">Koop the Koopa</a><br><br><b>Team Leader:<br></b><a href=\"https://www.smwcentral.net/?p=pm&do=compose&user=43042\" target=\"_blank\">LOLRyan2006 the Goombud</a><br><br><b>Creator:<br></b><a href=\"https://www.smwcentral.net/?p=pm&do=compose&user=41488\" target=\"_blank\">Dominicentek</a><br><br><b>Special thanks to:<br></b>Green Jerry by making the logo.<br><br><br><br><br><br><b>The Mario franchise is owned by nintendo, this is just a fan game that is based on Super Mario Maker.</b><button onclick=\"displaygs()\" style=\"width: calc(100% - 6px); position: absolute; bottom: 5px; left: 5px\">Cancel</button></div>"
-document.getElementById('darken').innerHTML = "<div class=\"border\" style=\"opacity: 1; display: block; font-family: Arial; width: 50%; height: 50%; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%)\"><b>Copyright (C) 2020 Goombud Studios in partnership with Zangpule Company<br><br>Main developers:<br></b><a href=\"https://www.smwcentral.net/?p=pm&do=compose&user=41488\" target=\"_blank\">Dominicentek</a><br><a href=\"https://www.smwcentral.net/?p=pm&do=compose&user=35598\" target=\"_blank\">Batata Douce</a><br><a href=\"https://www.smwcentral.net/?p=pm&do=compose&user=42522\" target=\"_blank\">Koop the Koopa</a><br><br><b>Team Leader:<br></b><a href=\"https://www.smwcentral.net/?p=pm&do=compose&user=43042\" target=\"_blank\">LOLRyan2006 the Goombud</a><br><br><b>Creator:<br></b><a href=\"https://www.smwcentral.net/?p=pm&do=compose&user=41488\" target=\"_blank\">Dominicentek</a><br><br><b>Special thanks to:<br></b>Green Jerry by making the logo.<br><br><br><br><br><br><b>Super Mario Maker.NET is no way planned nor affliated with Nintendo. All images, music and sounds are a property of Nintendo. All rights reserved.</b><button onclick=\"toolbarmsg(true)\" style=\"width: calc(100% - 6px); position: absolute; bottom: 5px; left: 5px\">OK</button></div>"
+document.getElementById('darken').innerHTML = "<div class=\"border\" style=\"opacity: 1; display: block; font-family: Arial; width: 50%; height: 50%; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%)\"><b>Copyright (C) 2020 Goombud Studios in partnership with Zangpule Company<br><br>Main developers:<br></b><a href=\"https://www.smwcentral.net/?p=pm&do=compose&user=41488\" target=\"_blank\">Dominicentek</a><br><a href=\"https://www.smwcentral.net/?p=pm&do=compose&user=35598\" target=\"_blank\">Batata Douce</a><br><a href=\"https://www.smwcentral.net/?p=pm&do=compose&user=42522\" target=\"_blank\">Koop the Koopa</a><br><br><b>Team Leader:<br></b><a href=\"https://www.smwcentral.net/?p=pm&do=compose&user=43042\" target=\"_blank\">LOLRyan2006 the Goombud</a><br><br><b>Creator:<br></b><a href=\"https://www.smwcentral.net/?p=pm&do=compose&user=41488\" target=\"_blank\">Dominicentek</a><br><br><b>Special thanks to:<br></b>Green Jerry by making the logo.<br>Koop the Koopa for making the Proto even better!<br><br><br><br><br><b>Super Mario Maker.NET is no way planned nor affliated with Nintendo. All images, music and sounds are a property of Nintendo. All rights reserved.</b><button onclick=\"toolbarmsg(true)\" style=\"width: calc(100% - 6px); position: absolute; bottom: 5px; left: 5px\">OK</button></div>"
 }
 function exportToImage() {
 displaygs()
@@ -444,10 +456,11 @@ document.body.removeChild(currTile)
 }
 }
 }else{
-document.getElementById('darken').innerHTML = "<div class=\"border\" style=\"opacity: 1; display: block; font-family: Arial; font-size: 18px; width: 50%; height: 50%; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%)\">You have not made a level yet. Build a level and then export it.<button onclick=\"toolbarmsg(true)\" style=\"width: calc(100% - 6px); position: absolute; bottom: 5px; left: 5px\">OK</button></div>"
+document.getElementById('darken').innerHTML = "<div class=\"border\" style=\"opacity: 1; display: block; font-family: Arial; font-size: 18px; width: 50%; height: 50%; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%)\">You have not made or load a level yet. Build a level and then export it.<button onclick=\"toolbarmsg(true)\" style=\"width: calc(100% - 6px); position: absolute; bottom: 5px; left: 5px\">OK</button></div>"
 }
 }
 function darkMode() {
+playacceptsound();
 if (darkModeEnabled) {
 darkModeEnabled = false;
 document.getElementById('dark').innerHTML = 'Dark Mode';
@@ -537,6 +550,22 @@ var string = "-"
 idIndex++;
 table.rows[y].cells[x].firstElementChild.firstElementChild.firstElementChild.id = "blenk" + string.repeat(idIndex)
 }
+function getCollisionData() {
+var table = document.getElementById('editorgrid').firstElementChild
+var data = "<collision>";
+for (var i = 0, row; row = table.rows[i]; i++) {
+data += "<row>"
+for (var j = 0, col; col = row.cells[j]; j++) {
+if (col.firstElementChild.firstElementChild.innerHTML !== '') {
+data += '<tile collindex="' + col.firstElementChild.firstElementChild.firstElementChild.getAttribute('collision') + '"></tile>'
+}
+else data += '<tile collindex="0"></tile>'
+}
+data += "</row>"
+}
+data += "</collision>"
+return data
+}
 </script>
 <style id="cssStyle">
 table, th, td {border: 1px solid black}
@@ -612,6 +641,9 @@ button:hover {
 	background:linear-gradient(to bottom, #ffab23 5%, #ffec64 100%);
 	background-color:#ffab23;
 }
+button:active {
+	position:relative;
+}
 input {
     background-color:#6ec8f5;
 }
@@ -627,7 +659,7 @@ textarea {
 <button class="gamebutton" onclick="exportToImage()">Export to Image</button><br>
 <button class="gamebutton" id="dark" onclick="darkMode()">Dark Mode</button><br>
 <button class="gamebutton" onclick="fullscreen()">Fullscreen Mode</button><br>
-<button class="gamebutton" onclick="sendDownloadRequest()">Save Level</button><textarea id="savefilename" onclick="this.select()" style="resize: none; height: 18px; width: 475px">My Level</textarea><text>.snetlvl</text><br><br>
+<button class="gamebutton" onclick="sendDownloadRequest()">Save Level</button><br><br>
 <input id="width" type="number" onclick="this.select()" min="0"><text> Editor Width</text><br>
 <input id="height" type="number" onclick="this.select()" min="0"><text> Editor Height</text><br>
 <button class="gamebutton" onclick="confirmation()">Submit Changes</button><p></p></div>
@@ -635,28 +667,28 @@ textarea {
 <audio id="bgmusic" controls="" loop="" style="display: none"><source id="musicsource" src="./assets/smb/theme.mp3" type="audio/mpeg"></audio>
 <div id="editorgrid"><table><tbody></tbody></table></div></div><br>
 <table style="right: 0px; top: 35px; position: fixed"><tbody><tr>
-<td><button class="gamebutton" onclick="toggleMisc()">Toggle Misc</button></td>
-<td><button class="gamebutton" id="compactbtn" onclick="compactOn()">Compact Mode</button></td>
-<td><button class="gamebutton" onclick="myFunction()">Toggle Menu</button></td></tr></tbody></table>
+<td><button class="gamebutton" onclick="playacceptsound(), toggleMisc()">Toggle Misc</button></td>
+<td><button class="gamebutton" id="compactbtn" onclick="playacceptsound(), compactOn()">Compact Mode</button></td>
+<td><button class="gamebutton" onclick="playacceptsound(), myFunction()">Toggle Menu</button></td></tr></tbody></table>
 <table style="right: 0px; top: 0px; position: fixed" id="toolbar">
 <tbody id="myDIV"><tr id="normaltoolbar" style="right: 280px; top: 0px; position: fixed">
-<td><button class="gamebutton" onclick="info()">About Us</button></td>
+<td><button class="gamebutton" onclick="info()">About</button></td>
 <td><button class="gamebutton" onclick="getHelp()">Get Help</button></td>
 <td><button class="gamebutton" id="mutesfxbtn" onclick="muteSFX()">Mute SFX</button></td>
 <td><button class="gamebutton" id="mutebtn" onclick="muteMusic()">Mute Music</button></td>
 <td><button class="gamebutton" onclick="displaygs()">Gamestyles</button></td>
-<td><button class="gamebutton" onclick="enableFillMode()">Fill</button></td>
+<td><button class="gamebutton" onclick="playacceptsound(), enableFillMode()">Fill</button></td>
 </tr>
 <tr id="compacttoolbar" style="display: none;right: 280px; top: 0px; position: fixed">
-<td><button onclick="toolbarmsg();">+</button>
+<td><button onclick="toolbarmsg()">...</button>
 </td><td><div id="newtoolbar" style="width: 125px; height: 20px"><button class="gamebutton" onclick="displaygs()">Gamestyles</button></div></td>
 </tr>
-<tr style="right: 0px; top: 0px; position: fixed"><td><div id="elementcont1"><img collision="3" class="element1" id="element1" draggable="true" ondragstart="drag(event, this)" src="./assets/smb/brick.png" onclick="document.getElementById(`blenk`).src=`./assets/smb/brick.png`"></div></td>
-<td><div id="elementcont2"><img collision="4" class="element2" id="element2" draggable="true" ondragstart="drag(event, this)" src="./assets/smb/question.png" onclick="savedlevel = 0 document.getElementById(`blenk`).src=`./assets/smb/question.png`"></div></td>
-<td><div id="elementcont3"><img collision="1" class="element3" id="element3" draggable="true" ondragstart="drag(event, this)" src="./assets/smb/stone.png" onclick="savedlevel = 0 document.getElementById(`blenk`).src=`./assets/smb/stone.png`"></div></td>
-<td><div id="elementcont4"><img collision="1" class="element4" id="element4" draggable="true" ondragstart="drag(event, this)" src="./assets/smb/ground.png" onclick="savedlevel = 0 document.getElementById(`blenk`).src=`./assets/smb/ground.png`"></div></td>
-<td><div id="elementcont5"><img collision="2" class="element5" id="element5" draggable="true" ondragstart="drag(event, this)" src="./assets/smb/coin.png" onclick="savedlevel = 0 document.getElementById(`blenk`).src=`./assets/smb/coin.png`"></div></td>
-<td><div id="elementcont6"><img collision="1" class="element6" id="element6" draggable="true" ondragstart="drag(event, this)" src="./assets/smb/dirt.png" onclick="savedlevel = 0 document.getElementById(`blenk`).src=`./assets/smb/dirt.png`"></div></td>
-<td><div id="elementcont7"><img collision="-1" class="element7" id="element7" draggable="true" ondragstart="drag(event, this)" src="./assets/smb/mario.png" onclick="savedlevel = 0 document.getElementById(`blenk`).src=`./assets/smb/mario.png`"></div></td>
+<tr style="right: 0px; top: 0px; position: fixed"><td><div id="elementcont1"><img collision="3" class="element1" id="element1" draggable="true" ondragstart="drag(event, this)" src="./assets/smb/brick.png" onclick="document.getElementById(`clickobject`).innerHTML=this.outerHTML;document.getElementById(`clickobject`).firstChild.removeAttribute('onclick')"></div></td>
+<td><div id="elementcont2"><img collision="4" class="element2" id="element2" draggable="true" ondragstart="drag(event, this)" src="./assets/smb/question.png" onclick="document.getElementById(`clickobject`).innerHTML=this.outerHTML;document.getElementById(`clickobject`).firstChild.removeAttribute('onclick')"></div></td>
+<td><div id="elementcont3"><img collision="1" class="element3" id="element3" draggable="true" ondragstart="drag(event, this)" src="./assets/smb/stone.png" onclick="document.getElementById(`clickobject`).innerHTML=this.outerHTML;document.getElementById(`clickobject`).firstChild.removeAttribute('onclick')"></div></td>
+<td><div id="elementcont4"><img collision="1" class="element4" id="element4" draggable="true" ondragstart="drag(event, this)" src="./assets/smb/ground.png" onclick="document.getElementById(`clickobject`).innerHTML=this.outerHTML;document.getElementById(`clickobject`).firstChild.removeAttribute('onclick')"></div></td>
+<td><div id="elementcont5"><img collision="2" class="element5" id="element5" draggable="true" ondragstart="drag(event, this)" src="./assets/smb/coin.png" onclick="document.getElementById(`clickobject`).innerHTML=this.outerHTML;document.getElementById(`clickobject`).firstChild.removeAttribute('onclick')"></div></td>
+<td><div id="elementcont6"><img collision="1" class="element6" id="element6" draggable="true" ondragstart="drag(event, this)" src="./assets/smb/dirt.png" onclick="document.getElementById(`clickobject`).innerHTML=this.outerHTML;document.getElementById(`clickobject`).firstChild.removeAttribute('onclick')"></div></td>
+<td><div id="elementcont7"><img collision="-1" class="element7" id="element7" draggable="true" ondragstart="drag(event, this)" src="./assets/smb/mario.png" onclick="document.getElementById(`clickobject`).innerHTML=this.outerHTML;document.getElementById(`clickobject`).firstChild.removeAttribute('onclick')"></div></td>
 <td style="background-color: #7f7fff"><div id="clickobject" style="width: 32px; height: 32px; background-color: #7F7FFF;"><img id="blenk" src="./assets/smb/brick.png"></div></td></tr>
 </tbody></table></i></span></body></html>
