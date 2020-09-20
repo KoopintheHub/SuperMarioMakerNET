@@ -1,4 +1,4 @@
-<html id="main" lang="en"><head><title>SMM.NET Pre-Alpha 5.✰.2</title><meta content="./assets/smbs/serverimg.png" itemprop="image"><link href="./assets/smbs/serverimg.png" rel="shortcut icon"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<html id="main" lang="en"><head><title>SMM.NET Pre-Alpha 5.✰.3</title><meta content="./assets/smbs/serverimg.png" itemprop="image"><link href="./assets/smbs/serverimg.png" rel="shortcut icon"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script src="http://html2canvas.hertzen.com/dist/html2canvas.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script>
@@ -64,6 +64,7 @@ document.msExitFullscreen()
 isfullscreen = 0
 }
 function fullscreen(){
+playacceptsound()
 if(isfullscreen == 0){
 goFullScreen()
 }else if (isfullscreen == 1){
@@ -73,6 +74,7 @@ quitFullScreen()
 var gs = "smb";
 var tb = "tool1";
 var idIndex = 0;
+var savedlevel = 2;
 var divid = 0;
 var darken = 0;
 var musicMuted = false;
@@ -133,7 +135,7 @@ else if (id == 17) gs = "tll"
 else if (id == 18) gs = "mapno4"
 else if (id == 19) gs = "sm64"
 else if (id == 20) gs = "smbs3"
-else if (id == 21) gs = "sboi"
+else if (id == 21) gs = "superboy"
 else if (id == 22) gs = "smrpg"
 document.getElementById('musicsource').src = "./assets/" + gs + "/theme.mp3"
 document.getElementById("bgmusic").load();
@@ -157,7 +159,7 @@ darken = 1;
 if (!fromScrollbar) var sound = new Audio("./assets/sfx/dialog.wav");
 if (!sfxMuted) sound.play();
 document.getElementById('darken').style = "pointer-events: all; background: rgba(0,0,0,0.5); width: 100%; height: 100%; position: fixed; top: 0px; left: 0px; z-index: 15";
-document.getElementById('darken').innerHTML = "<div class=\"border\" style=\"opacity: 1; display: block; width: 50%; height: 50%; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%)\"><div style=\" width: 100%; height: calc(100% - 25px)\"><button onclick=\"toolbarchoose(5);\" style=\"width: 100%\">About Us Button</button><br><button onclick=\"toolbarchoose(4);\" style=\"width: 100%\">Get Help Button</button><br><button onclick=\"toolbarchoose(3);\" style=\"width: 100%\">Mute SFX Button</button><br><button onclick=\"toolbarchoose(2);\" style=\"width: 100%\">Mute Music Button</button><br><button onclick=\"toolbarchoose(0);\" style=\"width: 100%\">Gamestyles Button</button><br><button onclick=\"toolbarchoose(1);\" style=\"width: 100%\">Fill Button</button></div><button onclick=\"toolbarmsg()\" style=\"width: calc(100% - 11px); position: absolute; bottom: 5px; left: 5px\">Close</button></div>";
+document.getElementById('darken').innerHTML = "<div class=\"border\" style=\"opacity: 1; display: block; width: 25%; height: 25%; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%)\"><div style=\" width: 100%; height: calc(100% - 25px)\"><button onclick=\"toolbarchoose(5);\" style=\"width: 100%\">About Us Button</button><br><button onclick=\"toolbarchoose(4);\" style=\"width: 100%\">Get Help Button</button><br><button onclick=\"toolbarchoose(3);\" style=\"width: 100%\">Mute SFX Button</button><br><button onclick=\"toolbarchoose(2);\" style=\"width: 100%\">Mute Music Button</button><br><button onclick=\"toolbarchoose(0);\" style=\"width: 100%\">Gamestyles Button</button><br><button onclick=\"toolbarchoose(1);\" style=\"width: 100%\">Fill Button</button></div><button onclick=\"toolbarmsg()\" style=\"width: calc(100% - 11px); position: absolute; bottom: 5px; left: 5px\">Cancel</button></div>";
 }
 else {
 darken = 0;
@@ -167,6 +169,10 @@ if (!sfxMuted) sound.play();
 document.getElementById('darken').innerHTML = "";
 document.getElementById('darken').style = "pointer-events: none; background: rgba(0,0,0,0); width: 100%; height: 100%; position: fixed; top: 0px; left: 0px; z-index: 15";
 }
+}
+function playacceptsound() {
+var sound = new Audio("./assets/sfx/accept.wav");
+if (!sfxMuted) sound.play();
 }
 function updateElms() {
 document.getElementById('elementcont1').innerHTML = '<img class="element1" id="element1" draggable="true" ondragstart="drag(event, this)" src="./assets/' + gs + '/brick.png" onclick="document.getElementById(`blenk`).src=`./assets/' + gs + '/brick.png`">'
@@ -183,6 +189,7 @@ var height = parseInt(document.getElementById('height').value, 10)
 addGrid(width, height)
 }
 function addGrid(width, height) {
+savedlevel = 0;
 idIndex = 0;
 var tablecontainer = document.getElementById("editorgrid");
 var table = document.createElement('TABLE');
@@ -222,7 +229,7 @@ darken = 1;
 if (!fromScrollbar) var sound = new Audio("./assets/sfx/dialog.wav");
 if (!sfxMuted) sound.play();
 document.getElementById('darken').style = "pointer-events: all; background: rgba(0,0,0,0.5); width: 100%; height: 100%; position: fixed; top: 0px; left: 0px; z-index: 15";
-document.getElementById('darken').innerHTML = "<div class=\"border\" style=\"opacity: 1; display: block; width: 50%; height: 50%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)\"><div style=\"overflow-y: scroll; width: 100%; height: calc(100% - 25px)\"><button onclick=\"switchGamestyle(0)\"><img src=\"./assets/smb.png\"></button><button onclick=\"switchGamestyle(1)\"><img src=\"./assets/smbs.png\"></button><button onclick=\"switchGamestyle(17)\"><img src=\"./assets/thelevelsarelost.png\"></button><button onclick=\"switchGamestyle(9)\"><img src=\"./assets/smb2.png\"></button><button onclick=\"switchGamestyle(2)\"><img src=\"./assets/smb3.png\"><button onclick=\"switchGamestyle(14)\"><img src=\"./assets/sml.png\"></button></button><button onclick=\"switchGamestyle(21)\"><img src=\"./assets/sboi.png\"></button><button onclick=\"switchGamestyle(3)\"><img src=\"./assets/smw.png\"></button><button onclick=\"switchGamestyle(6)\"><img src=\"./assets/sml2.png\"></button><button onclick=\"switchGamestyle(4)\"><img src=\"./assets/smas.png\"></button><button onclick=\"switchGamestyle(12)\"><img src=\"./assets/sm8w.png\"></button><button onclick=\"switchGamestyle(8)\"><img src=\"./assets/yi.png\"></button><button onclick=\"switchGamestyle(22)\"><img src=\"./assets/smrpg.png\"></button><button onclick=\"switchGamestyle(19)\"><img src=\"./assets/sm64.png\"></button><button onclick=\"switchGamestyle(20)\"><img src=\"./assets/smbs3.png\"></button><button onclick=\"switchGamestyle(13)\"><img src=\"./assets/sma2.png\"></button><button onclick=\"switchGamestyle(10)\"><img src=\"./assets/sma4.png\"></button><button onclick=\"switchGamestyle(5)\"><img src=\"./assets/nsmbds.png\"></button><button onclick=\"switchGamestyle(11)\"><img src=\"./assets/nsmbw.png\"><button onclick=\"switchGamestyle(18)\"><img src=\"./assets/mapno4.png\"></button></button><button onclick=\"switchGamestyle(15)\"><img src=\"./assets/nsmbu.png\"></button><button onclick=\"switchGamestyle(16)\"><img src=\"./assets/awful.png\"></button><br><button onclick=\"customFiles()\" style=\"width: calc(100% - 5px)\">Upload Custom</button></div><button onclick=\"displaygs()\" style=\"width: calc(100% - 11px); position: absolute; bottom: 5px; left: 5px\">Close</button></div>";
+document.getElementById('darken').innerHTML = "<div class=\"border\" style=\"opacity: 1; display: block; width: 50%; height: 50%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)\"><div style=\"overflow-y: scroll; width: 100%; height: calc(100% - 25px)\"><button onclick=\"switchGamestyle(0)\"><img src=\"./assets/smb.png\"></button><button onclick=\"switchGamestyle(1)\"><img src=\"./assets/smbs.png\"></button><button onclick=\"switchGamestyle(17)\"><img src=\"./assets/thelevelsarelost.png\"></button><button onclick=\"switchGamestyle(9)\"><img src=\"./assets/smb2.png\"></button><button onclick=\"switchGamestyle(2)\"><img src=\"./assets/smb3.png\"><button onclick=\"switchGamestyle(14)\"><img src=\"./assets/sml.png\"></button></button><button onclick=\"switchGamestyle(21)\"><img src=\"./assets/sboi.png\"></button><button onclick=\"switchGamestyle(3)\"><img src=\"./assets/smw.png\"></button><button onclick=\"switchGamestyle(6)\"><img src=\"./assets/sml2.png\"></button><button onclick=\"switchGamestyle(4)\"><img src=\"./assets/smas.png\"></button><button onclick=\"switchGamestyle(12)\"><img src=\"./assets/sm8w.png\"></button><button onclick=\"switchGamestyle(8)\"><img src=\"./assets/yi.png\"></button><button onclick=\"switchGamestyle(22)\"><img src=\"./assets/smrpg.png\"></button><button onclick=\"switchGamestyle(19)\"><img src=\"./assets/sm64.png\"></button><button onclick=\"switchGamestyle(20)\"><img src=\"./assets/smbs3.png\"></button><button onclick=\"switchGamestyle(13)\"><img src=\"./assets/sma2.png\"></button><button onclick=\"switchGamestyle(10)\"><img src=\"./assets/sma4.png\"></button><button onclick=\"switchGamestyle(5)\"><img src=\"./assets/nsmbds.png\"></button><button onclick=\"switchGamestyle(11)\"><img src=\"./assets/nsmbw.png\"><button onclick=\"switchGamestyle(18)\"><img src=\"./assets/mapno4.png\"></button></button><button onclick=\"switchGamestyle(15)\"><img src=\"./assets/nsmbu.png\"></button><button onclick=\"switchGamestyle(16)\"><img src=\"./assets/awful.png\"></button><br><button onclick=\"customFiles()\" style=\"width: calc(100% - 5px)\">Upload Custom</button></div><button onclick=\"displaygs()\" style=\"width: calc(100% - 11px); position: absolute; bottom: 5px; left: 5px\">Cancel</button></div>";
 }
 else {
 darken = 0;
@@ -235,7 +242,7 @@ document.getElementById('darken').style = "pointer-events: none; background: rgb
 }
 function download(filename, text) {
 var element = document.createElement('a');
-element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+element.setAttribute('href', text + getCollisionData());
 element.setAttribute('download', filename);
 element.style.display = 'none';
 document.body.appendChild(element);
@@ -297,9 +304,10 @@ element.innerHTML = '';
 }
 function getHelp() {
 displaygs()
-document.getElementById('darken').innerHTML = "<div class=\"border\" style=\"opacity: 1; display: block; width: 50%; height: 50%; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%)\"><b>I don't see the grid. How do I make it appear?</b><br>Specify width and height of your grid and click Submit Changes and the grid should appear<br><br><b>How do I place blocks?</b><br>Well, there are two options. You can either drag elements from item bar to the grid or click the element that you want to select and click somewhere in the grid.<br><br><b>How do I remove elements?</b><br>Click on the element you want to remove.<br><br><b>Someone gave me a weird .snetlvl file and said I must open it in this game. How? and how do you get this file?</b><br>To get this file, build a level and click Save. To load it, press browse, choose your .snetlvl file and click Load.<br><br><b>How can I import my own tiles and music?</b><br>When you go to Gamestyle list, click on Custom and select your image or audio file, then click Upload<br><br><b>How can I fill an area with a tile?</b><br>Grab the bucket, mark spot 1, then 2 and the selected tile will now fill to the specified area<br><button onclick=\"displaygs()\" style=\"width: calc(100% - 11px); position: absolute; bottom: 5px; left: 5px\">Close</button></div>"
+document.getElementById('darken').innerHTML = "<div class=\"border\" style=\"opacity: 1; display: block; font-family: Arial; width: 50%; height: 50%; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%)\"><b>I don't see the grid. How do I make it appear?</b><br>Specify width and height of your grid and click Submit Changes and the grid should appear<br><br><b>How do I place blocks?</b><br>Well, there are two options. You can either drag elements from item bar to the grid or click the element that you want to select and click somewhere in the grid.<br><br><b>How do I remove elements?</b><br>Click on the element you want to remove.<br><br><b>Someone gave me a weird .snetlvl file and said I must open it in this game. How? and how do you get this file?</b><br>To get this file, build a level and click Save. To load it, press browse, choose your .snetlvl file and click Load.<br><br><b>How can I import my own tiles and music?</b><br>When you go to Gamestyle list, click on Custom and select your image or audio file, then click Upload<br><br><b>How can I fill an area with a tile?</b><br>Grab the bucket, mark spot 1, then 2 and the selected tile will now fill to the specified area<br><br><b>I went to fullscreen and how do I get out?</b><br>You either click Fullscreen Mode again or press Esc (Maybe F11 too).<br><br><b>Why does Export Image not work?</b><br>Either you have not submitted a level or its a bug. Mostly it's a bug.<br><button onclick=\"toolbarmsg(1)\" style=\"width: calc(100% - 11px); position: absolute; bottom: 5px; left: 5px\">OK</button></div>"
 }
 function muteMusic() {
+playacceptsound()
 if (!musicMuted) {
 musicMuted = true
 document.getElementById('bgmusic').pause()
@@ -316,6 +324,7 @@ document.getElementById('mutebtn2').innerHTML = 'Mute Music'
 function muteSFX() {
 if (!sfxMuted) {
 sfxMuted = true
+playacceptsound()
 document.getElementById('mutesfxbtn').innerHTML = 'Unmute SFX'
 document.getElementById('mutesfxbtn2').innerHTML = 'Unmute SFX'
 }
@@ -350,9 +359,11 @@ document.getElementById('warning').innerHTML = ""
 displaygs(true)
 }
 function customFiles() {
-document.getElementById('darken').innerHTML = "<div class=\"border\" style=\"opacity: 1; display: block; width: 50%; height: 50%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)\"><input type=\"file\" id=\"graphic\"><button onclick=\"document.getElementById('graphic').click()\">Custom Sprite</button><br><input type=\"file\" id=\"sound\"><button onclick=\"document.getElementById('sound').click()\">Custom Music</button><br><button onclick=\"uploadCustomFiles()\" style=\"width: 100%\">Upload</button><br><text>Upload Size Limit: 50 MB</text><button onclick=\"displaygs()\" style=\"width: calc(100% - 11px); position: absolute; bottom: 5px; left: 5px\">Close</button></div>"
+playacceptsound()
+document.getElementById('darken').innerHTML = "<div class=\"border\" style=\"opacity: 1; display: block; width: 50%; height: 50%; font-family: Arial; font-size: 13px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)\"><input type=\"file\" id=\"graphic\"><button onclick=\"document.getElementById('graphic').click()\">Custom Sprite</button><br><input type=\"file\" id=\"sound\"><button onclick=\"document.getElementById('sound').click()\">Custom Music</button><br><button onclick=\"uploadCustomFiles()\" style=\"width: 100%\">Upload</button><br><text>Upload Size Limit: 50 MB</text><button onclick=\"displaygs()\" style=\"width: calc(100% - 11px); position: absolute; bottom: 5px; left: 5px\">Cancel</button></div>"
 }
 function sendDownloadRequest() {
+savedlevel = 1;
 download(document.getElementById('savefilename').value + ".snetlvl", document.getElementById('editorgridcontainer').innerHTML)
 }
 function readFolder() {
@@ -364,7 +375,7 @@ displaygs(true);
 }
 function convertDialog() {
 displaygs()
-document.getElementById('darken').innerHTML = "<div class=\"border\" style=\"opacity: 1; display: block; width: 50%; height: 50%; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%)\"><input type=\"file\" id=\"oldsnetlvl\"><button onclick=\"document.getElementById('oldsnetlvl').click()\">Original SNETLVL file</button><br><input type=\"file\" id=\"addmusic\"><button onclick=\"document.getElementById('addmusic').click()\">Music File</button><br><button onclick=\"convert()\" style=\"width: 100%\">Convert</button><button onclick=\"displaygs()\" style=\"width: calc(100% - 11px); position: absolute; bottom: 5px; left: 5px\">Close</button></div>"
+document.getElementById('darken').innerHTML = "<div class=\"border\" style=\"opacity: 1; display: block; width: 50%; height: 50%; font-family: Arial; font-size: 15px; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%)\"><input type=\"file\" id=\"oldsnetlvl\"><button onclick=\"document.getElementById('oldsnetlvl').click()\">Original SNETLVL file</button><br><input type=\"file\" id=\"addmusic\"><button onclick=\"document.getElementById('addmusic').click()\">Music File</button><br><button onclick=\"convert()\" style=\"width: 100%\">Convert</button><button onclick=\"displaygs()\" style=\"width: calc(100% - 11px); position: absolute; bottom: 5px; left: 5px\">Cancel</button></div>"
 }
 function convert() {
 var sound = new Audio('./assets/sfx/accept.wav')
@@ -393,16 +404,16 @@ return base64
 }
 function confirmation() {
 displaygs()
-document.getElementById('darken').innerHTML = "<div class=\"border\" style=\"opacity: 1; display: block; width: 50%; height: 50%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)\">Are you sure to change? Your creation will disappear. Also too high numbers may freeze the game.<button onclick=\"displaygs()\" style=\"width: calc(50% - 6px); position: absolute; bottom: 5px; left: 5px\">Close</button><button onclick=\"addGrid(parseInt(document.getElementById('width').value), parseInt(document.getElementById('height').value))\" style=\"width: calc(50% - 6px); position: absolute; bottom: 5px; right: 5px\">Change</button></div>"
+document.getElementById('darken').innerHTML = "<div class=\"border\" style=\"opacity: 1; display: block; width: 50%; font-family: Arial; font-size: 15px; height: 50%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)\">You are about to make a new level. Be aware that this will replace the current submitted level. Are you sure you want to submit changes?<button onclick=\"displaygs()\" style=\"width: calc(50% - 6px); position: absolute; bottom: 5px; left: 5px\">No</button><button onclick=\"addGrid(parseInt(document.getElementById('width').value), parseInt(document.getElementById('height').value))\" style=\"width: calc(50% - 6px); position: absolute; bottom: 5px; right: 5px\">Yes</button></div>"
 }
 function info() {
 displaygs()
-// document.getElementById('darken').innerHTML = "<div class=\"border\" style=\"opacity: 1; display: block; width: 50%; height: 50%; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%)\"><b>2020 Goombud Studios in partnership with Zangpule Company<br><br>Main developers:<br></b><a href=\"https://www.smwcentral.net/?p=pm&do=compose&user=41488\" target=\"_blank\">Dominicentek</a><br><a href=\"https://www.smwcentral.net/?p=pm&do=compose&user=35598\" target=\"_blank\">Batata Douce</a><br><a href=\"https://www.smwcentral.net/?p=pm&do=compose&user=42522\" target=\"_blank\">Koop the Koopa</a><br><br><b>Team Leader:<br></b><a href=\"https://www.smwcentral.net/?p=pm&do=compose&user=43042\" target=\"_blank\">LOLRyan2006 the Goombud</a><br><br><b>Creator:<br></b><a href=\"https://www.smwcentral.net/?p=pm&do=compose&user=41488\" target=\"_blank\">Dominicentek</a><br><br><b>Special thanks to:<br></b>Green Jerry by making the logo.<br><br><br><br><br><br><b>The Mario franchise is owned by nintendo, this is just a fan game that is based on Super Mario Maker.</b><button onclick=\"displaygs()\" style=\"width: calc(100% - 6px); position: absolute; bottom: 5px; left: 5px\">Close</button></div>"
-document.getElementById('darken').innerHTML = "<div class=\"border\" style=\"opacity: 1; display: block; width: 50%; height: 50%; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%)\"><b>Copyright (C) 2020 Goombud Studios in partnership with Zangpule Company<br><br>Main developers:<br></b><a href=\"https://www.smwcentral.net/?p=pm&do=compose&user=41488\" target=\"_blank\">Dominicentek</a><br><a href=\"https://www.smwcentral.net/?p=pm&do=compose&user=35598\" target=\"_blank\">Batata Douce</a><br><a href=\"https://www.smwcentral.net/?p=pm&do=compose&user=42522\" target=\"_blank\">Koop the Koopa</a><br><br><b>Team Leader:<br></b><a href=\"https://www.smwcentral.net/?p=pm&do=compose&user=43042\" target=\"_blank\">LOLRyan2006 the Goombud</a><br><br><b>Creator:<br></b><a href=\"https://www.smwcentral.net/?p=pm&do=compose&user=41488\" target=\"_blank\">Dominicentek</a><br><br><b>Special thanks to:<br></b>Green Jerry by making the logo.<br><br><br><br><br><br><b>Super Mario Maker.NET is no way planned nor affliated with Nintendo. All images and music are a property of Nintendo.</b><button onclick=\"displaygs()\" style=\"width: calc(100% - 6px); position: absolute; bottom: 5px; left: 5px\">Close</button></div>"
+// document.getElementById('darken').innerHTML = "<div class=\"border\" style=\"opacity: 1; display: block; width: 50%; height: 50%; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%)\"><b>2020 Goombud Studios in partnership with Zangpule Company<br><br>Main developers:<br></b><a href=\"https://www.smwcentral.net/?p=pm&do=compose&user=41488\" target=\"_blank\">Dominicentek</a><br><a href=\"https://www.smwcentral.net/?p=pm&do=compose&user=35598\" target=\"_blank\">Batata Douce</a><br><a href=\"https://www.smwcentral.net/?p=pm&do=compose&user=42522\" target=\"_blank\">Koop the Koopa</a><br><br><b>Team Leader:<br></b><a href=\"https://www.smwcentral.net/?p=pm&do=compose&user=43042\" target=\"_blank\">LOLRyan2006 the Goombud</a><br><br><b>Creator:<br></b><a href=\"https://www.smwcentral.net/?p=pm&do=compose&user=41488\" target=\"_blank\">Dominicentek</a><br><br><b>Special thanks to:<br></b>Green Jerry by making the logo.<br><br><br><br><br><br><b>The Mario franchise is owned by nintendo, this is just a fan game that is based on Super Mario Maker.</b><button onclick=\"displaygs()\" style=\"width: calc(100% - 6px); position: absolute; bottom: 5px; left: 5px\">Cancel</button></div>"
+document.getElementById('darken').innerHTML = "<div class=\"border\" style=\"opacity: 1; display: block; font-family: Arial; width: 50%; height: 50%; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%)\"><b>Copyright (C) 2020 Goombud Studios in partnership with Zangpule Company<br><br>Main developers:<br></b><a href=\"https://www.smwcentral.net/?p=pm&do=compose&user=41488\" target=\"_blank\">Dominicentek</a><br><a href=\"https://www.smwcentral.net/?p=pm&do=compose&user=35598\" target=\"_blank\">Batata Douce</a><br><a href=\"https://www.smwcentral.net/?p=pm&do=compose&user=42522\" target=\"_blank\">Koop the Koopa</a><br><br><b>Team Leader:<br></b><a href=\"https://www.smwcentral.net/?p=pm&do=compose&user=43042\" target=\"_blank\">LOLRyan2006 the Goombud</a><br><br><b>Creator:<br></b><a href=\"https://www.smwcentral.net/?p=pm&do=compose&user=41488\" target=\"_blank\">Dominicentek</a><br><br><b>Special thanks to:<br></b>Green Jerry by making the logo.<br><br><br><br><br><br><b>Super Mario Maker.NET is no way planned nor affliated with Nintendo. All images, music and sounds are a property of Nintendo. All rights reserved.</b><button onclick=\"toolbarmsg(true)\" style=\"width: calc(100% - 6px); position: absolute; bottom: 5px; left: 5px\">OK</button></div>"
 }
 function exportToImage() {
 displaygs()
-document.getElementById('darken').innerHTML = "<div class=\"border\" style=\"opacity: 1; display: block; width: 50%; height: 50%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)\"><div id=\"screenshotLevelWindow\" style=\"overflow-x: scroll; overflow-y: scroll; width: 100%; height: calc(100% - 40px)\"></div><button onclick=\"downloadLevel()\">Download</button><button onclick=\"displaygs()\" style=\"width: calc(100% - 6px); position: absolute; bottom: 5px; left: 5px\">Close</button></div>"
+document.getElementById('darken').innerHTML = "<div class=\"border\" style=\"opacity: 1; display: block; width: 50%; font-family: Arial;  height: 50%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)\"><div id=\"screenshotLevelWindow\" style=\"overflow-x: scroll; overflow-y: scroll; width: 100%; height: calc(100% - 40px)\"></div><button onclick=\"downloadLevel()\">Download</button><button onclick=\"displaygs()\" style=\"width: calc(100% - 6px); position: absolute; bottom: 5px; left: 5px\">Cancel</button></div>"
 var table = document.getElementById('editorgrid').firstElementChild
 var canvas = document.createElement('canvas')
 var attr = document.createAttribute('id')
@@ -434,13 +445,13 @@ function darkMode() {
 if (darkModeEnabled) {
 darkModeEnabled = false;
 document.getElementById('dark').innerHTML = 'Dark Mode';
-document.getElementById('cssStyle').innerHTML = 'div, img {width: 32px; height: 32px}\ntable { border-collapse: collapse}\ntable, th, td {border: solid 1px black}\nbody {\n  color: #000000; background-color: #FFFFFF; user-select: none;\n  -webkit-user-select: none;\n  -khtml-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n.border {\n  background: rgba(255, 255, 255, 0.5);\n  border: 1px solid #000000;\n  padding: 5px;\n  font-size: 12px;\n}\n*  {\n  cursor: url(\'./assets/cursor.png\'), auto;\n}\ninput[type=file] { display: none }'
+document.getElementById('cssStyle').innerHTML = 'div, img {width: 32px; height: 32px}\ntable { border-collapse: collapse}\ntable, th, td {border: solid 1px black}\nbody {\n  color: #000000; background-color: #FFFFFF; user-select: none;\n  -webkit-user-select: none;\n  -khtml-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n.border {\n  background: rgba(255, 255, 255, 0.5);\n  border: 1px solid #000000;\n  padding: 5px;\n  font-size: 12px;\n}\n*  {\n  cursor: url(\'./assets/cursor.png\'), auto;\n}\ninput[type=file] { display: none }\nbutton {\n	box-shadow: 0px 1px 0px 0px #fff6af;\n	background:linear-gradient(to bottom, #ffec64 5%, #ffab23 100%);\n	background-color:#ffec64;\n	border-radius:6px;\n	border:1px solid #ffaa22;\n	display:inline-block;\n	// cursor:pointer;\n	color:#333333;\n	font-family:Arial;\n	font-size:15px;\n	font-weight:bold;\n	padding:4px 21px;\n	text-decoration:none;\n	text-shadow:0px 1px 0px #ffee66;\n}\n.gamebutton {\n	box-shadow: 0px 1px 0px 0px #fff6af;\n	background:linear-gradient(to bottom, #ffec64 5%, #ffab23 100%);\n	background-color:#ffec64;\n	border-radius:5px;\n	border:1px solid #ffaa22;\n	display:inline-block;\n	// cursor:pointer;\n	color:#333333;\n	font-family:Arial;\n	font-size:15px;\n	font-weight:bold;\n	padding:1px 16px;\n	text-decoration:none;\n	text-shadow:0px 1px 0px #ffee66;\n}\nbutton:hover {\n	background:linear-gradient(to bottom, #ffab23 5%, #ffec64 100%);\n	background-color:#ffab23;\n}\ninput {\n    background-color:#6ec8f5;\n}\ntextarea {\n	font-family:Arial;\n    background-color:#6dc8f5;\n}'
 document.getElementById('toolbar').style = 'right: 0px; top: 0px; position: fixed; background-color: #FFFFFF'
 }
 else {
 darkModeEnabled = true;
 document.getElementById('dark').innerHTML = 'Light Mode';
-document.getElementById('cssStyle').innerHTML = 'div, img {width: 32px; height: 32px}\ntable { border-collapse: collapse}\ntable, th, td {border: 1px solid white}\nbody {\n  color: #FFFFFF; background-color: #1D1D1D; user-select: none;\n  -webkit-user-select: none;\n  -khtml-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n.border {\n  background: rgba(100, 100, 100, 0.5);\n  border: 1px solid #FFFFFF;\n  padding: 5px;\n  font-size: 12px;\n}\ntextarea, input[type="number"] {\ncolor: #FFFFFF;background-color: #4F4F4F; border: none\n}\n*  {\n  cursor: url(\'./assets/cursor.png\'), auto;\n}\ninput[type=file] { display: none }'
+document.getElementById('cssStyle').innerHTML = 'div, img {width: 32px; height: 32px}\ntable { border-collapse: collapse}\ntable, th, td {border: 1px solid white}\nbody {\n  color: #FFFFFF; background-color: #1D1D1D; user-select: none;\n  -webkit-user-select: none;\n  -khtml-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n.border {\n  background: rgba(100, 100, 100, 0.5);\n  border: 1px solid #FFFFFF;\n  padding: 5px;\n  font-size: 12px;\n}\ntextarea, input[type="number"] {\ncolor: #FFFFFF;background-color: #4F4F4F; border: none\n}\n*  {\n  cursor: url(\'./assets/cursor.png\'), auto;\n}\ninput[type=file] { display: none }\nbutton {\n	box-shadow: 0px 1px 0px 0px #fff6af;\n	background:linear-gradient(to bottom, #ffec64 5%, #ffab23 100%);\n	background-color:#ffec64;\n	border-radius:6px;\n	border:1px solid #ffaa22;\n	display:inline-block;\n	// cursor:pointer;\n	color:#333333;\n	font-family:Arial;\n	font-size:15px;\n	font-weight:bold;\n	padding:4px 21px;\n	text-decoration:none;\n	text-shadow:0px 1px 0px #ffee66;\n}\n.gamebutton {\n	box-shadow: 0px 1px 0px 0px #fff6af;\n	background:linear-gradient(to bottom, #ffec64 5%, #ffab23 100%);\n	background-color:#ffec64;\n	border-radius:5px;\n	border:1px solid #ffaa22;\n	display:inline-block;\n	// cursor:pointer;\n	color:#333333;\n	font-family:Arial;\n	font-size:15px;\n	font-weight:bold;\n	padding:1px 16px;\n	text-decoration:none;\n	text-shadow:0px 1px 0px #ffee66;\n}\nbutton:hover {\n	background:linear-gradient(to bottom, #ffab23 5%, #ffec64 100%);\n	background-color:#ffab23;\n}\ninput {\n    background-color:#6ec8f5;\n}\ntextarea {\n	font-family:Arial;\n    background-color:#6dc8f5;\n}'
 document.getElementById('toolbar').style = 'right: 0px; top: 0px; position: fixed; background-color: #4F4F4F'
 }
 }
@@ -520,12 +531,15 @@ var string = "-"
 idIndex++;
 table.rows[y].cells[x].firstElementChild.firstElementChild.firstElementChild.id = "blenk" + string.repeat(idIndex)
 }
+function getCollisionData() {
+
+}
 </script>
 <style id="cssStyle">
 table, th, td {border: 1px solid black}
 div, img {width: 32px; height: 32px}
 table {border-collapse: collapse}
-table, th, td {border: 1px solid black}
+table, th, td {border: 1px solid blac k}
 body {
   user-select: none;
   -webkit-user-select: none;
@@ -583,19 +597,20 @@ input {
     background-color:#6ec8f5;
 }
 textarea {
+	font-family:Arial;
     background-color:#6dc8f5;
 }
 </style>
 </head><body onload="chance()">
-<div style="position: fixed; top: 0px; left: 0px; z-index: -1000; height: 100%; width: 100%"></div><div id="darken" style="pointer-events: none; background: transparent none repeat scroll 0% 0%; width: 100%; height: 100%; position: fixed; top: 0px; left: 0px; z-index: 1000;"></div><div id="titlescreencontainer" style="top: 0px; left: 0px; position: fixed; width: 100%; height: 100%; background-color: #FFFFFF; z-index: 1"><audio controls="" autoplay="" loop="" style="display: none"><source src="./assets/titlescreen.mp3" type="audio/mpeg"></audio><div style="display: block; width: 50%; height: 50%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; font-size: 48px"><img style="width: 438px; height: 156px" src="./assets/logo.png"><br><text style="font-size: 24px">Prototype Version Pre-Alpha 5.✰.2</text><br><br><br><br><button onclick="playTheGame()">Play</button><a href="http://worldmaker.smmdotnet.42web.io" target="_blank"><button>World Maker (Prototype)</button></a></div><div id="kava"></div><text style="font-size: 24px; bottom: 5px; left: 5px; position: absolute">Copyright (C) 2020 Goombud Studios<br>Copyright (C) Nintendo</text></div><span style="font-size: 16pt;"><i>
+<div style="position: fixed; top: 0px; left: 0px; z-index: -1000; height: 100%; width: 100%"></div><div id="darken" style="pointer-events: none; background: transparent none repeat scroll 0% 0%; width: 100%; height: 100%; position: fixed; top: 0px; left: 0px; z-index: 1000;"></div><div id="titlescreencontainer" style="top: 0px; left: 0px; position: fixed; width: 100%; height: 100%; background-color: #FFFFFF; z-index: 1"><audio controls="" autoplay="" loop="" style="display: none"><source src="./assets/titlescreen.mp3" type="audio/mpeg"></audio><div style="display: block; width: 50%; height: 50%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; font-size: 48px"><img style="width: 438px; height: 156px" src="./assets/logo.png"><br><text style="font-size: 24px">Prototype Version Pre-Alpha 5.✰.3</text><br><br><br><br><button onclick="playTheGame()">Play</button><a href="http://worldmaker.smmdotnet.42web.io" target="_blank"><button>World Maker (Prototype)</button></a></div><div id="kava"></div><text style="font-size: 24px; bottom: 5px; left: 5px; position: absolute">Copyright (C) 2020 Goombud Studios<br>Copyright (C) Nintendo</text></div><span style="font-size: 16pt;"><i>
 <div style="width: 100%; height: 230px" id="miscMenu"><input id="savefile" accept=".snetlvl" type="file" onchange="loadData()"><button class="gamebutton" onclick="document.getElementById('savefile').click()">Load Level</button><br>
 <button class="gamebutton" onclick="convertDialog()">Convert .snetlvl file (Indev 5 - Indev 7 to Indev 8+)</button><br>
 <button class="gamebutton" onclick="exportToImage()">Export to Image</button><br>
 <button class="gamebutton" id="dark" onclick="darkMode()">Dark Mode</button><br>
 <button class="gamebutton" onclick="fullscreen()">Fullscreen Mode</button><br>
-<button class="gamebutton" onclick="sendDownloadRequest()">Save Level</button><textarea id="savefilename" style="resize: none; height: 18px; width: 475px">myname</textarea><text>.snetlvl</text><br><br>
-<input id="width" type="number" min="0"><text> Editor Width</text><br>
-<input id="height" type="number" min="0"><text> Editor Height</text><br>
+<button class="gamebutton" onclick="sendDownloadRequest()">Save Level</button><textarea id="savefilename" onclick="this.select()" style="resize: none; height: 18px; width: 475px">My Level</textarea><text>.snetlvl</text><br><br>
+<input id="width" type="number" onclick="this.select()" min="0"><text> Editor Width</text><br>
+<input id="height" type="number" onclick="this.select()" min="0"><text> Editor Height</text><br>
 <button class="gamebutton" onclick="confirmation()">Submit Changes</button><p></p></div>
 <div id="editorgridcontainer" style="position: absolute">
 <audio id="bgmusic" controls="" loop="" style="display: none"><source id="musicsource" src="./assets/smb/theme.mp3" type="audio/mpeg"></audio>
@@ -617,13 +632,12 @@ textarea {
 <td><button onclick="toolbarmsg();">+</button>
 </td><td><div id="newtoolbar" style="width: 125px; height: 20px"><button class="gamebutton" onclick="displaygs()">Gamestyles</button></div></td>
 </tr>
-<tr style="right: 0px; top: 0px; position: fixed"><td><div id="elementcont1"><img class="element1" id="element1" draggable="true" ondragstart="drag(event, this)" src="./assets/smb/brick.png" onclick="document.getElementById(`blenk`).src=`./assets/smb/brick.png`"></div></td>
-<td><div id="elementcont2"><img class="element2" id="element2" draggable="true" ondragstart="drag(event, this)" src="./assets/smb/question.png" onclick="document.getElementById(`blenk`).src=`./assets/smb/question.png`"></div></td>
-<td><div id="elementcont3"><img class="element3" id="element3" draggable="true" ondragstart="drag(event, this)" src="./assets/smb/stone.png" onclick="document.getElementById(`blenk`).src=`./assets/smb/stone.png`"></div></td>
-<td><div id="elementcont4"><img class="element4" id="element4" draggable="true" ondragstart="drag(event, this)" src="./assets/smb/ground.png" onclick="document.getElementById(`blenk`).src=`./assets/smb/ground.png`"></div></td>
-<td><div id="elementcont5"><img class="element5" id="element5" draggable="true" ondragstart="drag(event, this)" src="./assets/smb/coin.png" onclick="document.getElementById(`blenk`).src=`./assets/smb/coin.png`"></div></td>
-<td><div id="elementcont6"><img class="element6" id="element6" draggable="true" ondragstart="drag(event, this)" src="./assets/smb/dirt.png" onclick="document.getElementById(`blenk`).src=`./assets/smb/dirt.png`"></div></td>
-<td><div id="elementcont7"><img class="element7" id="element7" draggable="true" ondragstart="drag(event, this)" src="./assets/smb/mario.png" onclick="document.getElementById(`blenk`).src=`./assets/smb/mario.png`"></div></td>
+<tr style="right: 0px; top: 0px; position: fixed"><td><div id="elementcont1"><img collision="3" class="element1" id="element1" draggable="true" ondragstart="drag(event, this)" src="./assets/smb/brick.png" onclick="document.getElementById(`blenk`).src=`./assets/smb/brick.png`"></div></td>
+<td><div id="elementcont2"><img collision="4" class="element2" id="element2" draggable="true" ondragstart="drag(event, this)" src="./assets/smb/question.png" onclick="document.getElementById(`blenk`).src=`./assets/smb/question.png`"></div></td>
+<td><div id="elementcont3"><img collision="1" class="element3" id="element3" draggable="true" ondragstart="drag(event, this)" src="./assets/smb/stone.png" onclick="document.getElementById(`blenk`).src=`./assets/smb/stone.png`"></div></td>
+<td><div id="elementcont4"><img collision="1" class="element4" id="element4" draggable="true" ondragstart="drag(event, this)" src="./assets/smb/ground.png" onclick="document.getElementById(`blenk`).src=`./assets/smb/ground.png`"></div></td>
+<td><div id="elementcont5"><img collision="2" class="element5" id="element5" draggable="true" ondragstart="drag(event, this)" src="./assets/smb/coin.png" onclick="document.getElementById(`blenk`).src=`./assets/smb/coin.png`"></div></td>
+<td><div id="elementcont6"><img collision="1" class="element6" id="element6" draggable="true" ondragstart="drag(event, this)" src="./assets/smb/dirt.png" onclick="document.getElementById(`blenk`).src=`./assets/smb/dirt.png`"></div></td>
+<td><div id="elementcont7"><img collision="-1" class="element7" id="element7" draggable="true" ondragstart="drag(event, this)" src="./assets/smb/mario.png" onclick="document.getElementById(`blenk`).src=`./assets/smb/mario.png`"></div></td>
 <td style="background-color: #7f7fff"><div id="clickobject" style="width: 32px; height: 32px; background-color: #7F7FFF;"><img id="blenk" src="./assets/smb/brick.png"></div></td></tr>
-</tbody></table></i></span>
-</body></html>
+</tbody></table></i></span></body></html>
