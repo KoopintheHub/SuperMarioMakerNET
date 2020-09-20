@@ -34,7 +34,9 @@
 function chance() {
     var roll = Math.floor(Math.random('') * 1000) + 1;
 	if (roll === 2) {
-	document.getElementById('kava').innerHTML = "Hey you! Send a PM to <a href=\"https://www.smwcentral.net/?p=pm&do=compose&user=43042\" target=\"_blank\">LOLRyan2006 the Goombud</a> with this password: 'pancakesiwanttoeatalsoiwantcharacterpack' To win a prize! NOTE: It might take a while to get your prize."
+	// document.getElementById('kava').innerHTML = "Hey you! Send a PM to <a href=\"https://www.smwcentral.net/?p=pm&do=compose&user=43042\" target=\"_blank\">LOLRyan2006 the Goombud</a> with this password: 'pancakesiwanttoeatalsoiwantcharacterpack' To win a prize! NOTE: It might take a while to get your prize."
+	displaygs()
+	document.getElementById('darken').innerHTML = "<div class=\"border\" style=\"opacity: 1; display: block; font-family: Arial; width: 50%; height: 50%; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%)\"><b>Hey you! Send a PM to LOLRyan2006 the Goombud with this password: 'pancakesiwanttoeatalsoiwantcharacterpack' To win a prize!<br><br>NOTE: It might take a while to get your prize.</b><button onclick=\"toolbarmsg(true)\" style=\"width: calc(50% - 6px); position: absolute; bottom: 5px; left: 5px\">OK</button><a href=\"https://www.smwcentral.net/?p=pm&do=compose&user=43042\" target=\"_blank\"><button onclick=\"toolbarmsg(true)\" style=\"width: calc(50% - 6px); position: absolute; bottom: 5px; right: 5px\">Send PM</button></a></div>"
 	}
 	}
 var isfullscreen = 0;
@@ -691,4 +693,5 @@ textarea {
 <td><div id="elementcont6"><img collision="1" class="element6" id="element6" draggable="true" ondragstart="drag(event, this)" src="./assets/smb/dirt.png" onclick="document.getElementById(`clickobject`).innerHTML=this.outerHTML;document.getElementById(`clickobject`).firstChild.removeAttribute('onclick')"></div></td>
 <td><div id="elementcont7"><img collision="-1" class="element7" id="element7" draggable="true" ondragstart="drag(event, this)" src="./assets/smb/mario.png" onclick="document.getElementById(`clickobject`).innerHTML=this.outerHTML;document.getElementById(`clickobject`).firstChild.removeAttribute('onclick')"></div></td>
 <td style="background-color: #7f7fff"><div id="clickobject" style="width: 32px; height: 32px; background-color: #7F7FFF;"><img id="blenk" src="./assets/smb/brick.png"></div></td></tr>
-</tbody></table></i></span></body></html>
+</tbody></table></i></span>
+</body></html>
