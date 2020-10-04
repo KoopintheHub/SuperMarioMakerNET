@@ -450,10 +450,10 @@ document.body.appendChild(ui)
 if (runningonphone) {
 var buttons = document.createElement('div')
 buttons.setAttribute('style', 'bottom: 10px; left: 10px; width: calc(100% - 20px); height: 50px; position: absolute')
-buttons.innerHTML = "<button onmousedown=\"movingInterval = setInterval(function() { move('left') }, 35)\" onmouseup=\"clearInterval(movingInterval)\" style=\"top: 0px; left: 0px; position: absolute; width: 50px; height: 50px\"><</button><button onmousedown=\"movingInterval = setInterval(function() { move('right') }, 35)\" onmouseup=\"clearInterval(movingInterval)\" style=\"left: 55px; top: 0px; position: absolute; width: 50px; height: 50px\">></button><button onclick=\"jump()\" style=\"top: 0px; right: 0px; position: absolute; width: 50px; height: 50px\">^</button>"
+buttons.innerHTML = "<button onpointerdown=\"movingInterval = setInterval(function() { move('left') }, 35)\" onpointerup=\"clearInterval(movingInterval)\" style=\"top: 0px; left: 0px; position: absolute; width: 50px; height: 50px\"><</button><button onpointerdown=\"movingInterval = setInterval(function() { move('right') }, 35)\" onpointerup=\"clearInterval(movingInterval)\" style=\"left: 55px; top: 0px; position: absolute; width: 50px; height: 50px\">></button><button onclick=\"jump()\" style=\"top: 0px; right: 0px; position: absolute; width: 50px; height: 50px\">^</button>"
 document.body.appendChild(buttons)
 }
-}
+} ontouch
 else {
 context.clearRect(0, 0, canvas.width, canvas.height);
 if (mario.element) mario.element.remove()
