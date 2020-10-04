@@ -427,7 +427,7 @@ else marioFound = true
 }
 }
 }
-collMap[i].push("-1")
+if (collmapfound) collMap[i].push("-1")
 }
 collMap[collMap.length - 1].push("-1")
 collMap.push([])
@@ -683,7 +683,11 @@ document.getElementById('level').getContext('2d').clearRect(position[0] * 32, po
 }
 function loadIntroScreen() {
 if (developerMode) document.getElementById('debuggingHelp').innerHTML = '<h1 style="display: block; left: 50%; position: absolute; transform: translate(-50%, 0px)">Debugging</h1><br><br><br><br><b>TAB</b> Display debug menu<br><b></b>'
-if (runningonphone) document.getElementById('introscreen').remove()
+if (runningonphone) {
+document.getElementById('introscreen').remove()
+document.getElementById('returnButton').style = "top: 10px; right: 10px; position: absolute"
+
+}
 }
 window.onkeydown = function(event) {
 if (event.keyCode == 9 && developerMode) {
@@ -735,7 +739,7 @@ collMap[index[0]][index[1]] = 0
 </script>
 </head>
 <body style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none; overflow: hidden" onload="loadIntroScreen()">
-<a href="../index.html" style="bottom: 10px; right: 10px; position: absolute"><button>Return to Editor</button></a>
+<a href="../index.html" style="bottom: 10px; right: 10px; position: absolute" id="returnButton"><button>Return to Editor</button></a>
 <div id="config" style="width: 100%; height: 100%; position: absolute; top: 0px; left: 0px">
 <div id="introscreen">
 <h1 style="display: block; left: 50%; position: absolute; transform: translate(-50%, 0px)">Button Config</h1>
