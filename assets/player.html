@@ -263,7 +263,7 @@ var keyboardMap = [
   "WIN_OEM_CLEAR", // [254]
   "" // [255]
 ];
-
+var movingInterval
 var runningonphone = false;
 if( navigator.userAgent.match(/Android/i)
  || navigator.userAgent.match(/webOS/i)
@@ -367,7 +367,7 @@ if (file) {
 document.getElementById('config').remove()
 if (!mLeftBTN || !mRightBTN || !mJumpBTN) {
 var warningText = document.createElement('text')
-warningText.innerHTML = 'Warning: Some keys are not mapped. You may not be able to fully move Mario.'
+if (!runningonphone) warningText.innerHTML = 'Warning: Some keys are not mapped. You may not be able to fully move Mario.'
 warningText.setAttribute('style', 'position: absolute; bottom: 10px; left: 10px')
 document.body.appendChild(warningText)
 }
@@ -447,6 +447,12 @@ ui.setAttribute('style', 'top: 0px; left: 0px; position: absolute; width: 100%')
 ui.setAttribute('id', 'uiContainer')
 ui.innerHTML = '<img src="./smb/coin.png" style="left: 8px; top: 8px; position: absolute"><text id="coinCounter" style="left: 48px; top: 16px; position: absolute"> x 0</text><img src="./smb/mario.png" style="left: 8px; top: 48px; position: absolute"><text id="lifeCounter" style="left: 48px; top: 56px; position: absolute"> x 3</text>'
 document.body.appendChild(ui)
+if (runningonphone) {
+var buttons = document.createElement('div')
+buttons.setAttribute('style', 'bottom: 10px; left: 10px; width: calc(100% - 20px); height: 50px; position: absolute')
+buttons.innerHTML = "<button onmousedown=\"movingInterval = setInterval(function() { move('left') }, 35)\" onmouseup=\"clearInterval(movingInterval)\" style=\"top: 0px; left: 0px; position: absolute; width: 50px; height: 50px\"><</button><button onmousedown=\"movingInterval = setInterval(function() { move('right') }, 35)\" onmouseup=\"clearInterval(movingInterval)\" style=\"left: 55px; top: 0px; position: absolute; width: 50px; height: 50px\">></button><button onclick=\"jump()\" style=\"top: 0px; right: 0px; position: absolute; width: 50px; height: 50px\">^</button>"
+document.body.appendChild(buttons)
+}
 }
 else {
 context.clearRect(0, 0, canvas.width, canvas.height);
