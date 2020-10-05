@@ -142,7 +142,7 @@ quitFullScreen()
 }
 var gs = "smb";
 var tb = "tool1";
-var idIndex = 0;
+var idIndex = 1;
 var savedlevel = 2;
 var divid = 0;
 var darken = 0;
@@ -928,6 +928,42 @@ document.getElementById('element5').setAttribute('collision', 2)
 document.getElementById('element6').setAttribute('collision', 1)
 document.getElementById('element7').setAttribute('collision', 0)
 }
+function addColumn() {
+var table = document.getElementById('editorgrid').firstChild
+for (var i = 0; i < table.rows.length; i++) {
+idIndex++
+var column = document.createElement('td')
+var a = document.createElement('a')
+var div = document.createElement('div')
+a.setAttribute('onclick', 'placeElement(' + idIndex + ')')
+div.setAttribute('id', 'gridcell' + idIndex)
+div.setAttribute('ondrop', 'drop(event, false)')
+div.setAttribute('ondragover', 'allowDrop(event)')
+div.setAttribute('style', 'width: 32px; height: 32px')
+a.appendChild(div)
+column.appendChild(a)
+table.rows[i].appendChild(column)
+}
+}
+function addRow() {
+var table = document.getElementById('editorgrid').firstChild
+var row = document.createElement('tr')
+for (var i = 0; i < table.rows[0].cells.length; i++) {
+idIndex++
+var column = document.createElement('td')
+var a = document.createElement('a')
+var div = document.createElement('div')
+a.setAttribute('onclick', 'placeElement(' + idIndex + ')')
+div.setAttribute('id', 'gridcell' + idIndex)
+div.setAttribute('ondrop', 'drop(event, false)')
+div.setAttribute('ondragover', 'allowDrop(event)')
+div.setAttribute('style', 'width: 32px; height: 32px')
+a.appendChild(div)
+column.appendChild(a)
+row.appendChild(column)
+}
+table.appendChild(row)
+}
 </script>
 <style id="cssStyle">
 table, th, td {border: 1px solid black}
@@ -1021,7 +1057,7 @@ textarea {
 <button class="gamebutton" onclick="sendDownloadRequest()">Save Level</button><br><br>
 <div id="editorgridcontainer" style="position: absolute">
 <audio id="bgmusic" controls="" loop="" style="display: none"><source id="musicsource" src="./assets/smb/theme.mp3" type="audio/mpeg"></audio>
-<div id="editorgrid"><table><tbody><tr><td><a onclick="placeEelement(0)"><div id="gridcell0" ondrop="drop(event, false)" ondragover="allowDrop(event)" style="width: 32px; height: 32px"></div></a></td></tr></tbody></table></div></div><br>
+<div id="editorgrid"><table><tbody><tr><td><a onclick="placeElement(0)"><div id="gridcell0" ondrop="drop(event, false)" ondragover="allowDrop(event)" style="width: 32px; height: 32px"></div></a></td></tr></tbody></table></div></div><br>
 <table style="right: 0px; top: 35px; position: fixed"><tbody><tr>
 <td><button class="gamebutton" onclick="toggleMisc()">Toggle Misc</button></td>
 <td><button class="gamebutton" id="compactbtn" onclick="compactOn()">Compact Mode</button></td>
@@ -1048,5 +1084,5 @@ textarea {
 <td><div id="elementcont7"><img collision="0" class="element7" id="element7" draggable="true" ondragstart="drag(event, this)" src="./assets/smb/mario.png" onclick="document.getElementById(`clickobject`).innerHTML=this.outerHTML;document.getElementById(`clickobject`).firstChild.removeAttribute('onclick')"></div></td>
 <td style="background-color: #7f7fff"><div id="clickobject" style="width: 32px; height: 32px; background-color: #7F7FFF;"><img id="blenk" src="./assets/smb/brick.png"></div></td></tr>
 </tbody></table></i></span>
-
+<table style="bottom: 0px; right: 0px; position: absolute"><tr><td><img onclick="addColumn()" src="./assets/tableics/addcolumn.png"></td><td><img onclick="addRow()" src="./assets/tableics/addrow.png"></td><td><img onclick="removeColumn()" src="./assets/tableics/removecolumn.png"></td><td><img onclick="removeRow()" src="./assets/tableics/removerow.png"></td></tr></table>
 </body></html>
