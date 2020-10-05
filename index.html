@@ -683,6 +683,7 @@ if (allowpressbutton) {
 displaygs()
 document.getElementById('darken').innerHTML = "<div class=\"border\" style=\"opacity: 1; display: block; width: 40%; font-family: Arial; font-size: 15px; height: 10%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)\">Please enter the filename of you level:<textarea id=\"savefilename\" onclick=\"this.select()\" style=\"resize: none; height: 18px; width: 475px\">My Level</textarea><text>.snetlvl</text><button onclick=\"displaygs()\" style=\"width: calc(50% - 6px); position: absolute; bottom: 5px; left: 5px\">Cancel</button><button onclick=\"download(document.getElementById('savefilename').value + '.snetlvl', document.getElementById('editorgridcontainer').innerHTML), toolbarmsg(true)\" style=\"width: calc(50% - 6px); position: absolute; bottom: 5px; right: 5px\">Save Level</button></div>"
 }
+}
 function readFolder() {
 gs = document.getElementById('gsfolder').value
 document.getElementById('musicsource').src = "./assets/" + gs + "/theme.mp3"
