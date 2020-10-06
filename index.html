@@ -157,6 +157,10 @@ var fillObject = "";
 var bucketActive = false;
 var sfxMuted = false;
 
+var columnRemovalMode = false
+var rowRemovalMode = false
+var tableCount = {"columns": 0, "rows": 0}
+
 function throwmobileerror(){
 displaygs()
 document.getElementById('darken').innerHTML = "<div class=\"border\" style=\"opacity: 1; display: block; font-family: Arial; font-size: 20px; width: 50%; height: 50%; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%)\">This option is not available on mobile.<button onclick=\"toolbarmsg(true)\" style=\"width: calc(100% - 6px); position: absolute; bottom: 5px; left: 5px\">OK</button></div>"
@@ -885,7 +889,7 @@ idIndex++
 var column = document.createElement('td')
 var a = document.createElement('a')
 var div = document.createElement('div')
-a.setAttribute('onclick', 'placeElement(' + idIndex + ')')
+a.setAttribute('onclick', 'if (rowRemovalMode || columnRemovalMode) { tableRemove(' + (table.rows[table.rows.length - 1].cells.length - 1) + ') } else placeElement(' + idIndex + ')')
 div.setAttribute('id', 'gridcell' + idIndex)
 div.setAttribute('ondrop', 'drop(event, false)')
 div.setAttribute('ondragover', 'allowDrop(event)')
@@ -903,7 +907,7 @@ idIndex++
 var column = document.createElement('td')
 var a = document.createElement('a')
 var div = document.createElement('div')
-a.setAttribute('onclick', 'placeElement(' + idIndex + ')')
+a.setAttribute('onclick', 'if (rowRemovalMode || columnRemovalMode) { tableRemove(' + (table.rows.length - 1) + ') } else placeElement(' + idIndex + ')')
 div.setAttribute('id', 'gridcell' + idIndex)
 div.setAttribute('ondrop', 'drop(event, false)')
 div.setAttribute('ondragover', 'allowDrop(event)')
@@ -913,6 +917,47 @@ column.appendChild(a)
 row.appendChild(column)
 }
 table.appendChild(row)
+}
+function removeRow(index) {
+var table = document.getElementById('editorgrid').firstChild
+for (var i = 0; i < table.rows.length; i++) {
+table.rows[i].cells[index].remove()
+}
+}
+function removeColumn(index) {
+var table = document.getElementById('editorgrid').firstChild
+table.rows[index].remove()
+}
+function rowRemoval() {
+var table = document.getElementById('editorgrid').firstChild
+if (rowRemovalMode || columnRemovalMode || table.rows.length == 1) return
+rowRemovalMode = true
+var button = document.createElement('button')
+button.setAttribute('style', 'bottom: 8px; left: 8px; position: fixed; width: calc(100% - 16px)')
+button.setAttribute('id', 'tableModeButton')
+button.setAttribute('onclick', 'closeRemoval()')
+button.innerHTML = "Close"
+document.body.appendChild(button)
+}
+function columnRemoval() {
+var table = document.getElementById('editorgrid').firstChild
+if (rowRemovalMode || columnRemovalMode || table.rows.length == 1) return
+columnRemovalMode = true
+var button = document.createElement('button')
+button.setAttribute('style', 'bottom: 8px; left: 8px; position: fixed; width: calc(100% - 16px)')
+button.setAttribute('id', 'tableModeButton')
+button.setAttribute('onclick', 'closeRemoval()')
+button.innerHTML = "Close"
+document.body.appendChild(button)
+}
+function closeRemoval() {
+rowRemovalMode = false
+columnRemovalMode = false
+document.getElementById('tableModeButton').remove()
+}
+function tableRemove(index) {
+if (rowRemovalMode) removeRow(index)
+if (columnRemovalMode) removeColumn(index)
 }
 </script>
 <style id="cssStyle">
@@ -1034,5 +1079,5 @@ textarea {
 <td><div id="elementcont7"><img collision="0" class="element7" id="element7" draggable="true" ondragstart="drag(event, this)" src="./assets/smb/mario.png" onclick="document.getElementById(`clickobject`).innerHTML=this.outerHTML;document.getElementById(`clickobject`).firstChild.removeAttribute('onclick')"></div></td>
 <td style="background-color: #7f7fff"><div id="clickobject" style="width: 32px; height: 32px; background-color: #7F7FFF;"><img id="blenk" src="./assets/smb/brick.png"></div></td></tr>
 </tbody></table></i></span>
-<table style="bottom: 0px; right: 0px; position: fixed"><tr><td><img onclick="addColumn()" src="./assets/tableics/addcolumn.png"></td><td><img onclick="addRow()" src="./assets/tableics/addrow.png"></td><td><img onclick="removeColumn()" src="./assets/tableics/removecolumn.png"></td><td><img onclick="removeRow()" src="./assets/tableics/removerow.png"></td></tr></table>
+<table style="bottom: 0px; right: 0px; position: fixed"><tr><td><img onclick="addColumn()" src="./assets/tableics/addcolumn.png"></td><td><img onclick="addRow()" src="./assets/tableics/addrow.png"></td><td><img onclick="rowRemoval()" src="./assets/tableics/removecolumn.png"></td><td><img onclick="columnRemoval()" src="./assets/tableics/removerow.png"></td></tr></table>
 </body></html>
