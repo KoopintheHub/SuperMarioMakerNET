@@ -556,25 +556,6 @@ for (var i = 1; i < diffHeight + 1; i++) {
 table.rows[table.rows.length - i].remove()
 }
 }
-if (width > currHeight) {
-diffWidth = width - currWidth
-for (var j = 0; i < table.rows.length; i++) {
-for (var i = 0; i < diffWidth; i++) {
-idIndex++
-var cell = document.createElement('td')
-var a = document.createElement('a')
-var div = document.createElement('div')
-a.setAttribute('onclick', 'placeElement' + idIndex)
-div.setAttribute('id', 'gridcell' + idIndex)
-div.setAttribute('ondrop', 'drop(event, false)')
-div.setAttribute('ondragover', 'allowDrop(event)')
-div.setAttribute('style', 'width: 32px; height: 32px')
-a.appendChild(div)
-cell.appendChild(a)
-table.rows[j].appendChild(cell)
-}
-}
-}
 if (height > currHeight) {
 diffHeight = height - currHeight
 for (var i = 0; i < diffHeight; i++) {
@@ -584,7 +565,7 @@ idIndex++
 var cell = document.createElement('td')
 var a = document.createElement('a')
 var div = document.createElement('div')
-a.setAttribute('onclick', 'placeElement' + idIndex)
+a.setAttribute('onclick', 'placeElement(' + idIndex + ')')
 div.setAttribute('id', 'gridcell' + idIndex)
 div.setAttribute('ondrop', 'drop(event, false)')
 div.setAttribute('ondragover', 'allowDrop(event)')
@@ -594,6 +575,25 @@ cell.appendChild(a)
 row.appendChild(cell)
 }
 table.firstChild.appendChild(row)
+}
+}
+if (width > currHeight) {
+diffWidth = width - currWidth
+for (var j = 0; i < table.rows.length; j++) {
+for (var i = 0; i < diffWidth; i++) {
+idIndex++
+var cell = document.createElement('td')
+var a = document.createElement('a')
+var div = document.createElement('div')
+a.setAttribute('onclick', 'placeElement(' + idIndex + ')')
+div.setAttribute('id', 'gridcell' + idIndex)
+div.setAttribute('ondrop', 'drop(event, false)')
+div.setAttribute('ondragover', 'allowDrop(event)')
+div.setAttribute('style', 'width: 32px; height: 32px')
+a.appendChild(div)
+cell.appendChild(a)
+table.rows[j].appendChild(cell)
+}
 }
 }
 }
@@ -806,13 +806,6 @@ filereader.onload = function (evt) {
 var base64 = evt.target.result;
 return base64
 }
-}
-}
-function confirmation() {
-if (allowpressbutton) {
-displaygs()
-document.getElementById('darken').innerHTML = "<div class=\"border\" style=\"opacity: 1; display: block; width: 50%; font-family: Arial; font-size: 15px; height: 50%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)\">You are about to make a new level. Be aware that this will replace the current submitted level. Are you sure you want to submit changes?<button onclick=\"displaygs()\" style=\"width: calc(50% - 6px); position: absolute; bottom: 5px; left: 5px\">No</button><button onclick=\"addGrid(parseInt(document.getElementById('width').value), parseInt(document.getElementById('height').value))\" style=\"width: calc(50% - 6px); position: absolute; bottom: 5px; right: 5px\">Yes</button></div>"
-}else{
 }
 }
 function info(){
@@ -1077,7 +1070,7 @@ document.getElementById('playbtn').addEventListener('click', fadeOutTitle);
 <button class="gamebutton" onclick="sendDownloadRequest()">Save Level</button><br><br>
 <input id="width" type="number" onclick="this.select()" min="0"><text> Editor Width</text><br>
 <input id="height" type="number" onclick="this.select()" min="0"><text> Editor Height</text><br>
-<button class="gamebutton" onclick="confirmation()">Submit Changes</button><p></p></div>
+<button class="gamebutton" onclick="addGrid(document.getElementById('width').value, document.getElementById('height').value)">Submit Changes</button><p></p></div>
 <div id="editorgridcontainer" style="position: absolute">
 <audio id="bgmusic" controls="" loop="" style="display: none"><source id="musicsource" src="./assets/smb/theme.mp3" type="audio/mpeg"></audio>
 <div id="editorgrid"><table><tbody><tr><td><a onclick="placeElement(0)"><div id="gridcell0" ondrop="drop(event, false)" ondragover="allowDrop(event)" style="width: 32px; height: 32px"></div></a></td></tr></tbody></table></div></div><br>
