@@ -166,7 +166,7 @@ var base64audio;
 var snetlvlpackData;
 var bucketPosition1 = {'x': 0, 'y': 0}
 var bucketPosition2 = {'x': 0, 'y': 0}
-var createdlevel = 0;
+var createdlevel = 1;
 var placed1stBucket = false;
 var fillObject = "";
 var bucketActive = false;
@@ -536,40 +536,66 @@ var height = parseInt(document.getElementById('height').value, 10)
 addGrid(width, height)
 }
 function addGrid(width, height) {
-savedlevel = 0;
-createdlevel = 1;
-idIndex = 0;
-var tablecontainer = document.getElementById("editorgrid");
-var table = document.createElement('TABLE');
-var tableBody = document.createElement('TBODY');
-table.appendChild(tableBody);
-for (var i = 0; i < height; i++) {
-var tr = document.createElement('TR');
-tableBody.appendChild(tr);
-for (var j = 0; j < width; j++) {
-divid++;
-var td = document.createElement('TD');
-var div = document.createElement('DIV');
-var clickwindow = document.createElement('A');
-var attribute = document.createAttribute("onclick")
-attribute.value = "placeElement(" + divid + ")"
-clickwindow.setAttributeNode(attribute)
-div.id = "gridcell" + divid
-attribute = document.createAttribute("ondrop")
-attribute.value = "drop(event, false)"
-div.setAttributeNode(attribute)
-attribute = document.createAttribute("ondragover")
-attribute.value = "allowDrop(event)"
-div.setAttributeNode(attribute)
-div.style = "width: 32px; height: 32px"
-clickwindow.appendChild(div);
-td.appendChild(clickwindow);
-tr.appendChild(td);
+if (width <= 0 || height <= 0) return
+var table = document.getElementById('editorgrid').firstChild
+var currWidth = table.rows[0].cells.length
+var currHeight = table.rows.length
+var diffWidth = 0
+var diffHeight = 0
+if (width < currWidth) {
+diffWidth = currWidth - width
+for (var j = 0; i < table.rows.length; i++) {
+for (var i = 1; i < diffWidth + 1; i++) {
+table.rows[j].cells[table.rows[j].cells.length - i].remove()
 }
 }
-tablecontainer.innerHTML = '';
-tablecontainer.appendChild(table);
-displaygs(true)
+}
+if (height < currHeight) {
+diffHeight = currHeight - height
+for (var i = 1; i < diffHeight + 1; i++) {
+table.rows[table.rows.length - i].remove()
+}
+}
+if (width > currHeight) {
+diffWidth = width - currWidth
+for (var j = 0; i < table.rows.length; i++) {
+for (var i = 0; i < diffWidth; i++) {
+idIndex++
+var cell = document.createElement('td')
+var a = document.createElement('a')
+var div = document.createElement('div')
+a.setAttribute('onclick', 'placeElement' + idIndex)
+div.setAttribute('id', 'gridcell' + idIndex)
+div.setAttribute('ondrop', 'drop(event, false)')
+div.setAttribute('ondragover', 'allowDrop(event)')
+div.setAttribute('style', 'width: 32px; height: 32px')
+a.appendChild(div)
+cell.appendChild(a)
+table.rows[j].appendChild(cell)
+}
+}
+}
+if (height > currHeight) {
+diffHeight = height - currHeight
+for (var i = 0; i < diffHeight; i++) {
+var row = document.createElement('tr')
+for (var j = 0; j < table.rows[i].cells.length; j++) {
+idIndex++
+var cell = document.createElement('td')
+var a = document.createElement('a')
+var div = document.createElement('div')
+a.setAttribute('onclick', 'placeElement' + idIndex)
+div.setAttribute('id', 'gridcell' + idIndex)
+div.setAttribute('ondrop', 'drop(event, false)')
+div.setAttribute('ondragover', 'allowDrop(event)')
+div.setAttribute('style', 'width: 32px; height: 32px')
+a.appendChild(div)
+cell.appendChild(a)
+row.appendChild(cell)
+}
+table.firstChild.appendChild(row)
+}
+}
 }
 function displaygs(playAccept, fromScrollbar) {
 if (darken == 0) {
@@ -949,7 +975,6 @@ function worldmaker() {
 displaygs()
 document.getElementById('darken').innerHTML = "<div class=\"border\" style=\"opacity: 1; display: block; font-family: Arial; font-size: 18px; width: 50%; height: 50%; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%)\">This Prototype is officially paused for a long time and does not work.<br>We will bring this prototype alive again eventually.<button onclick=\"toolbarmsg(true)\" style=\"width: calc(100% - 6px); position: absolute; bottom: 5px; left: 5px\">OK</button></div>"
 }
-
 function playlevel() {
 	window.location.href = "./assets/player.html";
 }
@@ -1055,7 +1080,7 @@ document.getElementById('playbtn').addEventListener('click', fadeOutTitle);
 <button class="gamebutton" onclick="confirmation()">Submit Changes</button><p></p></div>
 <div id="editorgridcontainer" style="position: absolute">
 <audio id="bgmusic" controls="" loop="" style="display: none"><source id="musicsource" src="./assets/smb/theme.mp3" type="audio/mpeg"></audio>
-<div id="editorgrid"><table><tbody></tbody></table></div></div><br>
+<div id="editorgrid"><table><tbody><tr><td><a onclick="placeElement(0)"><div id="gridcell0" ondrop="drop(event, false)" ondragover="allowDrop(event)" style="width: 32px; height: 32px"></div></a></td></tr></tbody></table></div></div><br>
 <table style="right: 0px; top: 35px; position: fixed"><tbody><tr>
 <td><button class="gamebutton" onclick="toggleMisc()">Toggle Misc</button></td>
 <td><button class="gamebutton" id="compactbtn" onclick="compactOn()">Compact Mode</button></td>
