@@ -47,18 +47,6 @@ document.getElementById('splash').style = "color: YELLOW; font-size: 21px; text-
 splashText()
 		}, 500);
 }
-	function toggleMisc() {
-	if (allowpressbutton) {
-	playacceptsound()
-  var x = document.getElementById("miscMenu");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } else {
-    x.style.display = "none";
-  }
-}else{
-}
-}
 	function compactOn() {
 	playacceptsound()
 	if (allowpressbutton) {
@@ -72,17 +60,6 @@ splashText()
     x.style.display = "none";
 		    y.style.display = "block";
 		document.getElementById('compactbtn').innerHTML = 'Compact Mode'
-  }
-}else{
-}
-}
-	function myFunction() {
-	if (allowpressbutton) {
-  var x = document.getElementById("myDIV");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } else {
-    x.style.display = "none";
   }
 }else{
 }
@@ -953,6 +930,10 @@ document.getElementById('darken').innerHTML = "<div class=\"border\" style=\"opa
 function playlevel() {
 	window.location.href = "./assets/player.html";
 }
+function openSettings() {
+displaygs()
+document.getElementById('darken').innerHTML = "<div class=\"border\" style=\"opacity: 1; display: block; font-family: Arial; font-size: 18px; width: 50%; height: 50%; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%)\"><button style=\"top: 5px; left: 5px; position: absolute; width: calc(100% - 10px); height: 25px\" onclick=\"compactOn()\" id=\"compactbtn\">Compact Mode</button><button style=\"top: 35px; left: 5px; position: absolute; width: calc(100% - 10px); height: 25px\" onclick=\"fullscreen()\">Fullscreen Mode</button><button style=\"top: 65px; left: 5px; position: absolute; width: calc(100% - 10px); height: 25px\" id=\"mutebtn\" onclick=\"muteMusic()\">Mute Music</button><button style=\"top: 95px; left: 5px; position: absolute; width: calc(100% - 10px); height: 25px\" id=\"mutesfxbtn\" onclick=\"muteSFX()\">Mute SFX</button><button onclick=\"displaygs(true)\" style=\"width: calc(100% - 6px); position: absolute; bottom: 5px; left: 5px\">Done</button></div>"
+}
 </script>
 <style id="cssStyle">
 table, th, td {border: 1px solid black}
@@ -1044,28 +1025,23 @@ textarea {
 <script>
 document.getElementById('playbtn').addEventListener('click', fadeOutTitle);
 </script>
-<div style="width: 100%; height: 230px" id="miscMenu"><input id="savefile" accept=".snetlvl" type="file" onchange="loadData()"><button class="gamebutton" onclick="document.getElementById('savefile').click()">Load Level</button><br>
-<button class="gamebutton" onclick="convertDialog()">Convert .snetlvl file (Indev 5 - Indev 7 to Indev 8+)</button><br>
-<button class="gamebutton" onclick="exportToImage()">Export to Image</button><br>
-<button class="gamebutton" onclick="themes()">Themes</button><br>
-<button class="gamebutton" onclick="fullscreen()">Fullscreen Mode</button><br>
-<button class="gamebutton" onclick="sendDownloadRequest()">Save Level</button><br><br>
+<div style="width: 100%; height: 230px" id="miscMenu"><br>
+<button class="gamebutton" onclick="convertDialog()">Convert .snetlvl file (Indev 5 - Indev 7 to Indev 8+)</button><br><br>
+<button class="gamebutton" onclick="themes()">Themes</button><br><br><input id="savefile" accept=".snetlvl" type="file" onchange="loadData()"><button class="gamebutton" onclick="document.getElementById('savefile').click()">Load Level</button><br>
+<button class="gamebutton" onclick="sendDownloadRequest()">Save Level</button><br>
+<button class="gamebutton" onclick="exportToImage()">Export to Image</button><br><br>
 <input id="width" type="number" onclick="this.select()" min="0"><text> Editor Width</text><br>
 <input id="height" type="number" onclick="this.select()" min="0"><text> Editor Height</text><br>
-<button class="gamebutton" onclick="confirmation()">Submit Changes</button><p></p></div>
+<button class="gamebutton" onclick="confirmation()">Submit Changes</button></div>
 <div id="editorgridcontainer" style="position: absolute">
 <audio id="bgmusic" controls="" loop="" style="display: none"><source id="musicsource" src="./assets/smb/theme.mp3" type="audio/mpeg"></audio>
 <div id="editorgrid"><table><tbody></tbody></table></div></div><br>
 <table style="right: 0px; top: 35px; position: fixed"><tbody><tr>
-<td><button class="gamebutton" onclick="toggleMisc()">Toggle Misc</button></td>
-<td><button class="gamebutton" id="compactbtn" onclick="compactOn()">Compact Mode</button></td>
-<td><button class="gamebutton" onclick="myFunction()">Toggle Menu</button></td></tr></tbody></table>
+<td><button class="gamebutton" id="compactbtn" onclick="openSettings()">Settings</button></td></tr></tbody></table>
 <table style="right: 0px; top: 0px; position: fixed" id="toolbar">
 <tbody id="myDIV"><tr id="normaltoolbar" style="right: 280px; top: 0px; position: fixed">
 <td><button class="gamebutton" onclick="info()">About</button></td>
 <td><button class="gamebutton" onclick="getHelp()">Get Help</button></td>
-<td><button class="gamebutton" id="mutesfxbtn" onclick="muteSFX()">Mute SFX</button></td>
-<td><button class="gamebutton" id="mutebtn" onclick="muteMusic()">Mute Music</button></td>
 <td><button class="gamebutton" onclick="displaygsshow()">Gamestyles</button></td>
 <td><button class="gamebutton" onclick="enableFillMode()">Fill</button></td>
 </tr>
