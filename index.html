@@ -49,7 +49,6 @@ splashText()
 }
 	function compactOn() {
 	playacceptsound()
-	if (allowpressbutton) {
   var x = document.getElementById("compacttoolbar");
     var y = document.getElementById("normaltoolbar");
   if (x.style.display === "none") {
@@ -61,8 +60,6 @@ splashText()
 		    y.style.display = "block";
 		document.getElementById('compactbtn').innerHTML = 'Compact Mode'
   }
-}else{
-}
 }
 function fadeOutTitle() {
     var fadeTarget = document.getElementById('titlescreencontainer');
@@ -117,7 +114,6 @@ document.msExitFullscreen()
 isfullscreen = 0
 }
 function fullscreen(){
-if (allowpressbutton) {
 if (runningonphone == 1) {
 throwmobileerror()
 }else{
@@ -127,8 +123,6 @@ goFullScreen()
 }else if (isfullscreen == 1){
 quitFullScreen()
 }
-}
-}else{
 }
 }
 var gs = "smb";
@@ -646,7 +640,6 @@ document.getElementById('darken').innerHTML = "<div class=\"border\" style=\"opa
 }
 }
 function muteMusic() {
-if (allowpressbutton) {
 playacceptsound()
 if (!musicMuted) {
 musicMuted = true
@@ -660,11 +653,8 @@ document.getElementById('bgmusic').play()
 document.getElementById('mutebtn').innerHTML = 'Mute Music'
 document.getElementById('mutebtn2').innerHTML = 'Mute Music'
 }
-}else{
-}
 }
 function muteSFX() {
-if (allowpressbutton) {
 if (!sfxMuted) {
 sfxMuted = true
 playacceptsound()
@@ -675,8 +665,6 @@ else if (sfxMuted) {
 sfxMuted = false
 document.getElementById('mutesfxbtn').innerHTML = 'Mute SFX'
 document.getElementById('mutesfxbtn2').innerHTML = 'Mute SFX'
-}
-}else{
 }
 }
 function uploadCustomFiles() {
