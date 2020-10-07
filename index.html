@@ -1,4 +1,4 @@
-
+<!-- This is the whole proto code. -->
 <html id="main" translate="no" lang="en"><head><meta name="google" content="notranslate"><title>SMM.NET Alpha 1.0</title><meta content="./assets/smbs/serverimg.png" itemprop="image"><link href="./assets/smbs/serverimg.png" rel="shortcut icon"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script src="./assets/js/html2canvas.js"></script>
 <script>
@@ -83,6 +83,20 @@ function chance() {
 	document.getElementById('darken').innerHTML = "<div class=\"border\" style=\"opacity: 1; display: block; font-family: Arial; width: 50%; height: 50%; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%)\"><b>Hey you! Send a PM to LOLRyan2006 the Goombud with this password: 'pancakesiwanttoeatalsoiwantcharacterpack' To win a prize!<br><br>NOTE: It might take a while to get your prize.</b><button onclick=\"toolbarmsg(true)\" style=\"width: calc(50% - 6px); position: absolute; bottom: 5px; left: 5px\">OK</button><a href=\"https://www.smwcentral.net/?p=pm&do=compose&user=43042\" target=\"_blank\"><button onclick=\"toolbarmsg(true)\" style=\"width: calc(50% - 6px); position: absolute; bottom: 5px; right: 5px\">Send PM</button></a></div>"
 	}
 	}
+function splashTextRandom() {
+	var random = Math.floor(Math.random('') * 5);
+	if (random === 1) {
+		document.getElementById('splash').innerHTML = "Play your level by clicking\nPlay level"
+	} else if (random === 2) {
+		document.getElementById('splash').innerHTML = "best-snetlvl-ever"
+	} else if (random === 3) {
+		document.getElementById('splash').innerHTML = "Change the style of the proto\nwith themes!"
+	} else if (random === 4) {
+		document.getElementById('splash').innerHTML = "Check in help to see\nhow to play"
+	} else if (random === 5) {
+		document.getElementById('splash').innerHTML = "If you have old snetlvls\nconvert them into the latest versions!"
+	}
+}
 var cancelSFX = "./assets/sfx/cancel.wav"
 var acceptSFX = "./assets/sfx/accept.wav"
 var dialogSFX = "./assets/sfx/dialog.wav"
@@ -922,6 +936,10 @@ function openSettings() {
 displaygs()
 document.getElementById('darken').innerHTML = "<div class=\"border\" style=\"opacity: 1; display: block; font-family: Arial; font-size: 18px; width: 50%; height: 50%; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%)\"><button style=\"top: 5px; left: 5px; position: absolute; width: calc(100% - 10px); height: 25px\" onclick=\"compactOn()\" id=\"compactbtn\">Compact Mode</button><button style=\"top: 35px; left: 5px; position: absolute; width: calc(100% - 10px); height: 25px\" onclick=\"fullscreen()\">Fullscreen Mode</button><button style=\"top: 65px; left: 5px; position: absolute; width: calc(100% - 10px); height: 25px\" id=\"mutebtn\" onclick=\"muteMusic()\">Mute Music</button><button style=\"top: 95px; left: 5px; position: absolute; width: calc(100% - 10px); height: 25px\" id=\"mutesfxbtn\" onclick=\"muteSFX()\">Mute SFX</button><button onclick=\"displaygs(true)\" style=\"width: calc(100% - 6px); position: absolute; bottom: 5px; left: 5px\">Done</button></div>"
 }
+function whatissmmnet() {
+displaygs()
+document.getElementById('darken').innerHTML = "<div class=\"border\" style=\"opacity: 1; display: block; font-family: Arial; width: 50%; height: 50%; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%)\">Super Mario Maker.NET is a BIG fan game invented by LOLRyan2006!<br>The game is built with Microsoft XNA and has alot of game styles.<br><br>It also has bootlegs, Yeah thats right!<br><br><br><img title\"The game.\" style=\"width: 438px; height: 156px\" src=\"./assets/logo.png\"></img><br><br>Check at the bottom of the about box for legal info.<button onclick=\"toolbarmsg(true)\" style=\"width: calc(100% - 6px); position: absolute; bottom: 5px; left: 5px\">OK</button></div>"
+}
 </script>
 <style id="cssStyle">
 table, th, td {border: 1px solid black}
@@ -961,22 +979,6 @@ button {
 	text-decoration:none;
 	text-shadow:0px 1px 0px #ffee66;
 }
-.titlebutton {
-	box-shadow: 0px 1px 0px 0px #fff6af;
-	background:linear-gradient(to bottom, #ffec64 5%, #ffab23 100%);
-	background-color:#ffec64;
-	border-radius:5px;
-	border:1px solid #ffaa22;
-	display:inline-block;
-	// cursor:pointer;
-	color:#333333;
-	font-family:Arial;
-	font-size:20px;
-	font-weight:bold;
-	padding:8px 28px;
-	text-decoration:none;
-	text-shadow:0px 1px 0px #ffee66;
-}
 .gamebutton {
 	box-shadow: 0px 1px 0px 0px #fff6af;
 	background:linear-gradient(to bottom, #ffec64 5%, #ffab23 100%);
@@ -1007,13 +1009,36 @@ textarea {
 	font-family:Arial;
     background-color:#6dc8f5;
 }
+#titleLogo:hover {
+	transition: transform .2s;
+	-ms-transform: scale(1.15);
+	-webkit-transform: scale(1.15);
+	transform: scale(1.15);
+}
 </style>
-</head><body id="thebody" onload="chance(); splashText(); applyCollision()">
-<div class="dashboard" style="position: fixed; top: 0px; left: 0px; z-index: -1000; height: 100%; width: 100%"></div><div class="darkencss" id="darken" style="pointer-events: none; background: transparent none repeat scroll 0% 0%; width: 100%; height: 100%; position: fixed; top: 0px; left: 0px; z-index: 1000;"></div><div class="titlescreenclass" id="titlescreencontainer" style="overflow-y: scroll; top: 0px; left: 0px; position: fixed; width: 100%; height: 100%; background-color: #FFFFFF; z-index: 1"><audio id="titleMusic" controls="" autoplay="" loop="" style="display: none"><source id="titleSong" src="./assets/titlescreen.mp3" type="audio/mpeg"></audio><div style="display: block; width: 50%; height: 25%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -75%); text-align: center; font-size: 48px"><img id="titleLogo" style="width: 438px; height: 156px" src="./assets/logo.png"><br><text style="font-size: 24px">Prototype Version Alpha 1.0</text><br><br><button id="playbtn" onclick="playTheGame()">Play and Start Making!</button><br><button class="gamebutton" onclick="themes()">Themes</button><br><button onclick="playlevel()">Play level (Unfinished)</button><br><text style="font-size: 16px;">Code: <input id="codeBox" type="text" name="password"><button onclick="submitCode()">Submit</button><br><p id="wrong" style="color: #fc0303"></p></text></div><text style="color: yellow; font-size: 23px; text-shadow: black 1px 1px 1px; right: 227px; top: 40%; position: absolute; transform: rotate(-10deg);" id="splash">Now with playable Mario!</text><div id="kava"></div><text style="font-size: 24px; bottom: 5px; left: 5px; position: absolute">Copyright (C) 2020 Goombud Studios, Zangpule Company<br>Copyright (C) Nintendo</text></div><span style="font-size: 16pt;"><i>
+</head><body id="thebody" onload="chance(); splashText(); applyCollision(); splashTextRandom()">
+<!-- This is the title screen code. -->
+<div class="dashboard" style="position: fixed; top: 0px; left: 0px; z-index: -1000; height: 100%; width: 100%"></div>
+<div class="darkencss" id="darken" style="pointer-events: none; background: transparent none repeat scroll 0% 0%; width: 100%; height: 100%; position: fixed; top: 0px; left: 0px; z-index: 1000;"></div><div class="titlescreenclass" id="titlescreencontainer" style="overflow-y: scroll; top: 0px; left: 0px; position: fixed; width: 100%; height: 100%; background-color: #FFFFFF; z-index: 1">
+<audio id="titleMusic" controls="" autoplay="" loop="" style="display: none"><source id="titleSong" src="./assets/titlescreen.mp3" type="audio/mpeg"></audio>
+<div style="display: block; width: 50%; height: 25%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -75%); text-align: center; font-size: 48px">
+<img onclick="whatissmmnet()" title="What is SMM.NET? (Super Mario Maker.NET)" id="titleLogo" style="width: 438px; height: 156px" src="./assets/logo.png"><br>
+<text style="font-size: 24px">Prototype Version Alpha 1.0</text><br><br>
+<button class="titlebutton" id="playbtn" onclick="playTheGame()">Play and Start Making!</button><br><br>
+<button class="titlebutton" onclick="themes()">Themes</button><br>
+<button class="titlebutton" onclick="playlevel()">Play level (Unfinished)</button><br>
+<text style="font-size: 16px;">Code: <input id="codeBox" type="text" name="password">
+<button class="titlebutton" onclick="submitCode()">Submit</button><br><p id="wrong" style="color: #fc0303"></p></text></div>
+<text style="color: yellow; font-size: 23px; text-shadow: black 1px 1px 1px; right: 227px; top: 40%; position: absolute; transform: rotate(-10deg);" id="splash">Now with playable Mario!</text>
+<div id="kava"></div>
+<text style="font-size: 24px; bottom: 5px; left: 5px; position: absolute">Copyright (C) 2020 Goombud Studios, Zangpule Company<br>Check about for info.</text></div>
+<span style="font-size: 16pt;"><i>
 <script>
 document.getElementById('playbtn').addEventListener('click', fadeOutTitle);
 </script>
-<button class="gamebutton" onclick="convertDialog()">Convert .snetlvl file (Indev 5 - Indev 7 to Indev 8+)</button><br><br>
+<!-- End of the the title screen code. -->
+<!-- This is the editor code. -->
+<button onclick="convertDialog()">Convert .snetlvl file (Indev 5 - Indev 7 to Indev 8+)</button><br><br>
 <button class="gamebutton" onclick="themes()">Themes</button><br><br><input id="savefile" accept=".snetlvl" type="file" onchange="loadData()"><button class="gamebutton" onclick="document.getElementById('savefile').click()">Load Level</button><br>
 <button class="gamebutton" onclick="sendDownloadRequest()">Save Level</button><br>
 <button class="gamebutton" onclick="exportToImage()">Export to Image</button><br><br>
@@ -1047,3 +1072,4 @@ document.getElementById('playbtn').addEventListener('click', fadeOutTitle);
 </tbody></table></i></span>
 
 </body></html>
+<!-- End of the editor and whole proto code. -->
