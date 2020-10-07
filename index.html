@@ -1025,14 +1025,13 @@ textarea {
 <script>
 document.getElementById('playbtn').addEventListener('click', fadeOutTitle);
 </script>
-<div style="width: 100%; height: 230px" id="miscMenu">
 <button class="gamebutton" onclick="convertDialog()">Convert .snetlvl file (Indev 5 - Indev 7 to Indev 8+)</button><br><br>
 <button class="gamebutton" onclick="themes()">Themes</button><br><br><input id="savefile" accept=".snetlvl" type="file" onchange="loadData()"><button class="gamebutton" onclick="document.getElementById('savefile').click()">Load Level</button><br>
 <button class="gamebutton" onclick="sendDownloadRequest()">Save Level</button><br>
 <button class="gamebutton" onclick="exportToImage()">Export to Image</button><br><br>
 <input id="width" type="number" onclick="this.select()" min="0"><text> Editor Width</text><br>
 <input id="height" type="number" onclick="this.select()" min="0"><text> Editor Height</text><br>
-<button class="gamebutton" onclick="confirmation()">Submit Changes</button></div>
+<button class="gamebutton" onclick="confirmation()">Submit Changes</button>
 <div id="editorgridcontainer" style="position: absolute">
 <audio id="bgmusic" controls="" loop="" style="display: none"><source id="musicsource" src="./assets/smb/theme.mp3" type="audio/mpeg"></audio>
 <div id="editorgrid"><table><tbody></tbody></table></div></div><br>
