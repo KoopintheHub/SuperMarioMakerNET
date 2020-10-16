@@ -1,3 +1,4 @@
+
 <!-- This is the whole proto code. -->
 <html id="main" translate="no" lang="en"><head><meta name="google" content="notranslate"><title>SMM.NET Alpha 1.0</title><meta content="./assets/smbs/serverimg.png" itemprop="image"><link href="./assets/smbs/serverimg.png" rel="shortcut icon"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script src="./assets/js/html2canvas.js"></script>
@@ -127,7 +128,7 @@ document.msExitFullscreen()
 }
 isfullscreen = 0
 }
-function fullscreen(){
+function fullscreen(isClickedInOptions){
 if (runningonphone == 1) {
 throwmobileerror()
 }else{
@@ -156,10 +157,10 @@ var placed1stBucket = false;
 var fillObject = "";
 var bucketActive = false;
 var sfxMuted = false;
+var levelName = "My Level"
 
-function throwmobileerror(){
-displaygs()
-document.getElementById('darken').innerHTML = "<div class=\"border\" style=\"opacity: 1; display: block; font-family: Arial; font-size: 20px; width: 50%; height: 50%; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%)\">This option is not available on mobile.<button onclick=\"toolbarmsg(true)\" style=\"width: calc(100% - 6px); position: absolute; bottom: 5px; left: 5px\">OK</button></div>"
+function throwmobileerror(isClickedInOptions){
+document.getElementById('darken').innerHTML = "<div class=\"border\" style=\"opacity: 1; display: block; font-family: Arial; font-size: 20px; width: 50%; height: 50%; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%)\">This option is not available on mobile.<button onclick=\"toolbarmsg(); openSettings()\" style=\"width: calc(100% - 6px); position: absolute; bottom: 5px; left: 5px\">OK</button></div>"
 }
 function allowDrop(ev) {
 ev.preventDefault();
@@ -586,7 +587,10 @@ element.click();
 document.body.removeChild(element);
 }
 function checkFileName(filename, text) {
+levelName = document.getElementById("savefilename").value;
 if (document.getElementById("savefilename").value == '') {
+levelName = "My Level";
+download("My Level.snetlvl", text)
 }else{
 download(filename, text)
 }
@@ -714,7 +718,7 @@ function sendDownloadRequest() {
 if (allowpressbutton) {
 displaygs()
 if (createdlevel == 1) {
-document.getElementById('darken').innerHTML = "<div class=\"border\" style=\"opacity: 1; display: block; width: 40%; font-family: Arial; font-size: 15px; height: 10%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)\">Please enter the filename of you level:<textarea id=\"savefilename\" onclick=\"this.select()\" style=\"resize: none; height: 18px; width: 475px\">My Level</textarea><text>.snetlvl</text><button onclick=\"displaygs()\" style=\"width: calc(50% - 6px); position: absolute; bottom: 5px; left: 5px\">Cancel</button><button onclick=\"checkFileName(document.getElementById('savefilename').value + '.snetlvl', document.getElementById('editorgridcontainer').innerHTML), toolbarmsg(true)\" style=\"width: calc(50% - 6px); position: absolute; bottom: 5px; right: 5px\">Save Level</button></div>"
+document.getElementById('darken').innerHTML = "<div class=\"border\" style=\"opacity: 1; display: block; width: 40%; font-family: Arial; font-size: 15px; height: 15%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)\">Please enter the filename of you level:<textarea id=\"savefilename\" onclick=\"this.select()\" style=\"resize: none; height: 18px; width: 475px\">" + levelName + "</textarea><text>.snetlvl</text><button onclick=\"displaygs()\" style=\"width: calc(50% - 6px); position: absolute; bottom: 5px; left: 5px\">Cancel</button><button onclick=\"checkFileName(document.getElementById('savefilename').value + '.snetlvl', document.getElementById('editorgridcontainer').innerHTML), toolbarmsg(true)\" style=\"width: calc(50% - 6px); position: absolute; bottom: 5px; right: 5px\">Save Level</button></div>"
 }
 else {
 document.getElementById('darken').innerHTML = "<div class=\"border\" style=\"opacity: 1; display: block; font-family: Arial; font-size: 18px; width: 50%; height: 50%; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%)\">You have not made or load a level yet. Build a level and then save the level.<button onclick=\"toolbarmsg(true)\" style=\"width: calc(100% - 6px); position: absolute; bottom: 5px; left: 5px\">OK</button></div>"
@@ -934,7 +938,7 @@ function playlevel() {
 }
 function openSettings() {
 displaygs()
-document.getElementById('darken').innerHTML = "<div class=\"border\" style=\"opacity: 1; display: block; font-family: Arial; font-size: 18px; width: 50%; height: 50%; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%)\"><button style=\"top: 5px; left: 5px; position: absolute; width: calc(100% - 10px); height: 25px\" onclick=\"compactOn()\" id=\"compactbtn\">Compact Mode</button><button style=\"top: 35px; left: 5px; position: absolute; width: calc(100% - 10px); height: 25px\" onclick=\"fullscreen()\">Fullscreen Mode</button><button style=\"top: 65px; left: 5px; position: absolute; width: calc(100% - 10px); height: 25px\" id=\"mutebtn\" onclick=\"muteMusic()\">Mute Music</button><button style=\"top: 95px; left: 5px; position: absolute; width: calc(100% - 10px); height: 25px\" id=\"mutesfxbtn\" onclick=\"muteSFX()\">Mute SFX</button><button onclick=\"displaygs(true)\" style=\"width: calc(100% - 6px); position: absolute; bottom: 5px; left: 5px\">Done</button></div>"
+document.getElementById('darken').innerHTML = "<div class=\"border\" style=\"opacity: 1; display: block; font-family: Arial; font-size: 18px; width: 50%; height: 50%; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%)\"><button style=\"top: 5px; left: 5px; position: absolute; width: calc(100% - 10px); height: 25px\" onclick=\"compactOn()\" id=\"compactbtn\">Compact Mode</button><button style=\"top: 35px; left: 5px; position: absolute; width: calc(100% - 10px); height: 25px\" onclick=\"fullscreen(true)\">Fullscreen Mode</button><button style=\"top: 65px; left: 5px; position: absolute; width: calc(100% - 10px); height: 25px\" id=\"mutebtn\" onclick=\"muteMusic()\">Mute Music</button><button style=\"top: 95px; left: 5px; position: absolute; width: calc(100% - 10px); height: 25px\" id=\"mutesfxbtn\" onclick=\"muteSFX()\">Mute SFX</button><button onclick=\"displaygs(true)\" style=\"width: calc(100% - 6px); position: absolute; bottom: 5px; left: 5px\">Done</button></div>"
 }
 function whatissmmnet() {
 displaygs()
